@@ -1,0 +1,439 @@
+<template>
+  <div
+    flex="~ col"
+    view-styles
+  >
+    <common-toolbar>
+      <assistant-model-select
+        v-if="$route.params.type === 'chat' && workspaceStore.id"
+        :assistant-id="conf.chatAssistantId"
+        :model-id="modelId"
+        :workspace-id="workspaceStore.id"
+        :conf="conf"
+        @update:assistant-id="switchAssistant"
+        @update:model-id="switchModel"
+      />
+      <q-toolbar-title
+        v-else
+        text-lg
+      >
+        {{ entityName(entity) }}
+      </q-toolbar-title>
+    </common-toolbar>
+    <div
+      grow
+      bg-sur
+      of-y-auto
+      ref="scrollContainer"
+      @scroll="onScroll"
+    >
+      <template
+        v-for="[parent, current] of pairs(chain)"
+        :key="current"
+      >
+        <message-item
+          class="message-item"
+          v-if="messageMap[current]"
+          :model-value="chat.msgRoute[parent] + 1"
+          :message="messageMap[current]"
+          :child-num="chat.msgTree[parent].length"
+          :scroll-container
+          @update:model-value="switchChain(parent, $event - 1)"
+          @edit="edit(parent)"
+          @regenerate="regenerate(parent)"
+          @delete-branch="deleteBranch(parent)"
+          @rendered="streamingTask && lockBottom()"
+          :inputing="current === chain.at(-1)"
+          :dense="position !== 'full' || $q.screen.lt.md"
+        />
+      </template>
+    </div>
+    <div pos-relative>
+      <div
+        pos-absolute
+        top--1
+        right-1
+        flex="~ col"
+        text-sec
+        translate-y="-100%"
+        z-1
+      >
+        <q-btn
+          flat
+          round
+          dense
+          icon="sym_o_first_page"
+          rotate-90
+          @click="scroll('top')"
+        />
+        <q-btn
+          flat
+          round
+          dense
+          icon="sym_o_keyboard_arrow_up"
+          @click="scroll('up')"
+        />
+        <q-btn
+          flat
+          round
+          dense
+          icon="sym_o_keyboard_arrow_down"
+          @click="scroll('down')"
+        />
+        <q-btn
+          flat
+          round
+          dense
+          icon="sym_o_last_page"
+          rotate-90
+          @click="scroll('bottom')"
+        />
+      </div>
+      <message-input
+        :message="getMessageAt(-1)!"
+        :parent-id="chat.id"
+        :input-types="modelInputTypes(model).user"
+        @send="send"
+        v-slot="{ empty }"
+      >
+        <q-btn
+          icon="sym_o_add"
+          :title="t('Add Item')"
+          flat
+          round
+          @click="selectEntities"
+        />
+        <q-btn
+          v-if="$route.params.type === 'chat'"
+          flat
+          :round="!activePluginCount"
+          :class="{ 'px-2': activePluginCount }"
+          min-w="2.7em"
+          min-h="2.7em"
+          icon="sym_o_extension"
+          :title="t('Plugins')"
+        >
+          <code
+            v-if="activePluginCount"
+            bg-sur-c-high
+            px="6px"
+          >{{ activePluginCount }}</code>
+          <q-menu>
+            <q-list>
+              <plugin-toggle-items
+                :model-value="plugins"
+                @update:model-value="updatePlugins"
+              />
+            </q-list>
+          </q-menu>
+        </q-btn>
+        <q-space />
+        <div
+          v-if="usage"
+          my-2
+          ml-2
+        >
+          <q-icon
+            name="sym_o_generating_tokens"
+            size="24px"
+          />
+          <code
+            bg-sur-c-high
+            px-2
+            py-1
+          >{{ usage.inputTokens }}+{{ usage.outputTokens }}</code>
+          <q-tooltip>
+            {{ t('Last Message Token Consumption') }}<br>
+            {{ t('Input') }}: {{ usage.inputTokens }}, {{ t('Output') }}: {{ usage.outputTokens }}
+          </q-tooltip>
+        </div>
+        <abortable-btn
+          :loading="!!streamingTask"
+          :disable="empty && !streamingTask"
+          @click="send"
+          @abort="abort"
+          :label="t('Send')"
+          icon="sym_o_send"
+        />
+      </message-input>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useUiStateStore } from 'src/stores/ui-state'
+import type { Ref } from 'vue'
+import { computed, inject, nextTick, toRef, useTemplateRef, watch, ref } from 'vue'
+import { mutate, z } from 'src/utils/zero-session'
+import { genId } from 'app/src-shared/utils/id'
+import { pairs } from 'src/utils/functions'
+import { t } from 'src/utils/i18n'
+import { useChatRes } from 'src/composables/chat-res'
+import { useQuasar } from 'quasar'
+import type { FullChat, FullModel } from 'app/src-shared/queries'
+import { tasks } from 'src/utils/tasks'
+import AbortableBtn from 'src/components/AbortableBtn.vue'
+import { mutators } from 'app/src-shared/mutators'
+import AssistantModelSelect from 'src/components/AssistantModelSelect.vue'
+import { queries } from 'app/src-shared/queries'
+import { useThisEntityConf } from 'src/composables/entity-conf'
+import { useQuery } from 'src/composables/zero/query'
+import type { CompletionConfig } from 'src/services/stream-message'
+import { streamChat } from 'src/services/stream-message'
+import { generateChatTitle } from 'src/services/generate-chat-title'
+import type { LayoutPosition } from 'src/utils/types'
+import { useRoute } from 'vue-router'
+import { entityName, modelInputTypes } from 'src/utils/defaults'
+import { usePlugins } from 'src/composables/plugins'
+import PluginToggleItems from 'src/components/PluginToggleItems.vue'
+import { editPageSdkTool } from 'src/utils/edit-page'
+import { injectGlobal } from 'src/composables/provide-inject-global'
+import type { Editor } from '@tiptap/vue-3'
+import SelectEntitiesDialog from 'src/components/SelectEntitiesDialog.vue'
+import { useWorkspaceStore } from 'src/stores/workspace'
+import CommonToolbar from 'src/components/CommonToolbar.vue'
+import MessageInput from 'src/components/MessageInput.vue'
+import { usePerfsStore } from 'src/stores/perfs'
+import { useChatScroll } from 'src/composables/chat-scroll'
+import MessageItem from 'src/components/MessageItem.vue'
+
+const props = defineProps<{
+  chat: FullChat
+}>()
+
+const position = inject<Ref<LayoutPosition>>('position')!
+
+const { entity, conf } = useThisEntityConf()
+const { data: assistant } = useQuery(() => conf.value.chatAssistantId ? queries.fullAssistant(conf.value.chatAssistantId) : null)
+const modelId = computed(() => props.chat.modelId ?? assistant.value?.modelId ?? conf.value.chatModelId)
+const { data: model } = useQuery(() => modelId.value ? queries.fullModel(modelId.value) : null)
+
+const plugins = computed(() => props.chat.plugins ?? assistant.value?.plugins ?? [])
+const { tools, status: pluginStatus } = usePlugins(plugins)
+const activePluginCount = computed(() => Object.values(pluginStatus.value).filter(status => status === 'ready').length)
+
+function updatePlugins(plugins: string[]) {
+  mutate(mutators.updateChat({
+    id: props.chat.id,
+    plugins,
+  }))
+}
+
+const { getMessageAt, chain, messageMap } = useChatRes(toRef(props, 'chat'))
+
+function switchChain(target: string, value: number) {
+  mutate(mutators.switchChain({ entityId: props.chat.id, target, value }))
+}
+
+async function edit(parent: string) {
+  const { msgTree, msgRoute } = props.chat
+  const { type, text, entities } = messageMap.value[msgTree[parent][msgRoute[parent]]]
+  const id = genId()
+  await mutate(mutators.appendMessage({
+    entityId: props.chat.id,
+    target: parent,
+    props: { id, type: type as 'chat:user' | 'chat:assistant', text },
+    entities: entities.map(entity => entity.id),
+  })).client
+}
+
+const $q = useQuasar()
+async function regenerate(parent: string) {
+  const params = await getStreamParams()
+  if (!params) return
+  await mutate(mutators.appendMessagePair({
+    entityId: props.chat.id,
+    target: parent,
+    aProps: { id: genId(), assistantId: assistant.value!.id, modelName: model.value!.name, sentAt: Date.now() },
+    uProps: { id: genId() },
+  })).client
+  stream(params)
+}
+
+async function deleteBranch(parent: string) {
+  const branch = props.chat.msgRoute[parent]
+  await mutate(mutators.deleteBranch({
+    entityId: props.chat.id,
+    parent,
+    branch,
+  })).client
+}
+
+const { chatScrollTops } = useUiStateStore()
+function onScroll(ev: Event) {
+  const container = ev.target as HTMLElement
+  chatScrollTops.set(props.chat.id, container.scrollTop)
+}
+const scrollContainer = useTemplateRef('scrollContainer')
+watch(() => props.chat.id, id => {
+  nextTick(() => {
+    scrollContainer.value?.scrollTo({ top: chatScrollTops.get(id) ?? 0 })
+  })
+})
+
+function selectEntities() {
+  $q.dialog({
+    component: SelectEntitiesDialog,
+  }).onOk(ids => {
+    mutate(mutators.createMessageEntities({
+      messageId: chain.value.at(-1)!,
+      entityIds: ids,
+    }))
+  })
+}
+
+const route = useRoute()
+
+async function getStreamParams() {
+  const config = await getCompletionConfig()
+  if (!config) {
+    $q.notify({ message: t('Please select an assistant'), color: 'negative' })
+    return null
+  }
+  if (!model.value) {
+    $q.notify({ message: t('Please select a model'), color: 'negative' })
+    return null
+  }
+  return {
+    model: model.value,
+    config,
+  }
+}
+
+async function send() {
+  const params = await getStreamParams()
+  if (!params) return
+  const { id } = props.chat
+  const target = chain.value.at(-1)!
+  await mutate(mutators.appendMessagePair({
+    entityId: id,
+    target,
+    aProps: { id: genId(), assistantId: assistant.value?.id, sentAt: Date.now() },
+    uProps: { id: genId() },
+  })).client
+  const { promise } = stream(params)
+  if (chain.value.length === 4) {
+    promise.then(generateTitle)
+  }
+}
+async function generateTitle() {
+  const modelId = conf.value.chatTitleModelId
+  const model = modelId && await z.run(queries.fullModel(modelId), { type: 'complete' })
+  model && await generateChatTitle({ chat: props.chat, model }).catch(err => {
+    console.error(err)
+    $q.notify({
+      message: t('Failed to generate chat title: {0}', err.message),
+      color: 'negative',
+    })
+  })
+}
+
+const streamingTask = computed(() => tasks.find(t => t.id === chain.value.at(-2)! && t.status === 'running'))
+
+const lockingBottom = ref(false)
+const perfsStore = usePerfsStore()
+function lockBottom() {
+  lockingBottom.value && scroll('bottom', 'auto')
+}
+function stream(params: {
+  model: FullModel
+  config: CompletionConfig
+}) {
+  lockingBottom.value = perfsStore.perfs.streamingLockBottom
+  const task = streamChat({
+    id: chain.value.at(-2)!,
+    title: t('Chat Completion: {0}', entityName(entity.value)),
+    link: `/chat/${props.chat.id}`,
+  }, {
+    chat: props.chat,
+    ...params,
+  })
+  task.promise.finally(() => {
+    lockingBottom.value = false
+  })
+  return task
+}
+watch(() => props.chat.id, async () => {
+  if (route.params.type === 'search' && !streamingTask.value && !messageMap.value[chain.value.at(-2)!].text) {
+    const params = await getStreamParams()
+    params && stream(params)
+  }
+}, { immediate: true })
+
+async function getCompletionConfig(): Promise<CompletionConfig | undefined> {
+  if (route.params.type === 'chat') {
+    if (assistant.value) {
+      const { promptTemplate, promptRole, contextNum, streamSettings, prompt } = assistant.value
+      return {
+        promptTemplate,
+        promptRole,
+        contextNum,
+        streamSettings,
+        vars: {
+          _rolePrompt: prompt,
+        }, // TODO: add vars
+        tools: tools.value,
+      }
+    }
+  }
+  const base = {
+    promptRole: 'system',
+    streamSettings: {},
+  } satisfies Partial<CompletionConfig>
+  if (route.params.type === 'search') {
+    const record = await z.run(queries.searchRecord(props.chat.id), { type: 'complete' })
+    if (record) {
+      return {
+        ...base,
+        promptTemplate: conf.value.searchAssistantPrompt,
+        vars: {
+          query: record.q,
+          results: record.results,
+          language: navigator.language,
+        },
+        tools: {},
+      }
+    }
+  } else if (route.params.type === 'page') {
+    const entity = await z.run(queries.entity({ id: route.params.id as string }), { type: 'complete' })
+    const editor = injectGlobal<Ref<Editor>>('pageEditor')
+    if (editor?.value) {
+      return {
+        ...base,
+        promptTemplate: conf.value.pageAssistantPrompt,
+        vars: {
+          title: entityName(entity),
+          content: editor.value.getHTML(),
+        },
+        tools: {},
+        sdkTools: {
+          edit_page: editPageSdkTool,
+        },
+      }
+    }
+  }
+}
+
+function abort() {
+  streamingTask.value?.abort()
+}
+
+function switchAssistant(id: string | null) {
+  mutate(mutators.updateEntityConf({
+    id: props.chat.id,
+    updates: { chatAssistantId: id },
+  }))
+}
+function switchModel(id: string | null) {
+  mutate(mutators.updateChat({
+    id: props.chat.id,
+    modelId: id,
+  }))
+}
+
+const workspaceStore = useWorkspaceStore()
+
+const usage = computed(() => messageMap.value[chain.value.at(-2)!]?.usage)
+
+const { scroll } = useChatScroll(scrollContainer)
+</script>

@@ -1,0 +1,45 @@
+<template>
+  <welcome-wrapper>
+    <q-card
+      flat
+      bg-sur
+      style="width: min(100%, 500px)"
+    >
+      <q-card-section>
+        <div class="text-h5">
+          {{ workspaceStore.workspace?.name }}
+        </div>
+      </q-card-section>
+      <q-card-section px-2>
+        <navigation-panel />
+      </q-card-section>
+    </q-card>
+  </welcome-wrapper>
+</template>
+<script setup lang="ts">
+import WelcomeWrapper from './WelcomeWrapper.vue'
+import { user } from 'src/utils/zero-session'
+import { useRouter } from 'vue-router'
+import NavigationPanel from 'src/components/NavigationPanel.vue'
+import { useWorkspaceStore } from 'src/stores/workspace'
+import { useUserDataStore } from 'src/stores/user-data'
+import { until } from '@vueuse/core'
+
+const router = useRouter()
+if (!user.id) {
+  router.replace('/auth/sign-in')
+} else {
+  const userDataStore = useUserDataStore()
+
+  if (!userDataStore.data?.welcomed) {
+    router.replace('/welcome')
+    until(() => userDataStore.data).toBeTruthy().then(() => {
+      userDataStore.updateData({
+        welcomed: [],
+      })
+    })
+  }
+}
+
+const workspaceStore = useWorkspaceStore()
+</script>

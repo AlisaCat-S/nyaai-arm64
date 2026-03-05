@@ -1,0 +1,26 @@
+<template>
+  <admin-drawer v-model="drawerOpen" />
+  <q-header
+    bg-sur-c-low
+    text-on-sur
+  >
+    <q-toolbar>
+      <q-btn
+        flat
+        dense
+        round
+        icon="sym_o_menu"
+        @click="drawerOpen = !drawerOpen"
+      />
+      <q-toolbar-title>{{ $route.meta.title }}</q-toolbar-title>
+    </q-toolbar>
+  </q-header>
+  <router-view />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import AdminDrawer from '../components/AdminDrawer.vue'
+
+const drawerOpen = ref(false)
+</script>

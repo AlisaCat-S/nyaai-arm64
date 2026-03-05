@@ -1,0 +1,30 @@
+services:
+  zdev_postgres:
+    image: postgres:18.1-alpine
+    shm_size: 1g
+    user: postgres
+    restart: always
+    healthcheck:
+      test: 'pg_isready -U user --dbname=postgres'
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 127.0.0.1:5430:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: password
+    command: |
+      postgres 
+      -c wal_level=logical
+      -c max_wal_senders=10 
+      -c max_replication_slots=5 
+      -c hot_standby=on 
+      -c hot_standby_feedback=on
+    volumes:
+      - zdev_pgdata:/var/lib/postgresql/data
+  
+volumes:
+  zdev_pgdata:
+    driver: local

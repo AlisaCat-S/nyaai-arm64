@@ -1,0 +1,73 @@
+import Admin from './AppAdmin.vue'
+import type { RouteRecordRaw } from 'vue-router'
+import UsersPage from './pages/UsersPage.vue'
+import { t } from 'src/utils/i18n'
+import EmptyPage from './pages/EmptyPage.vue'
+import NotFoundPage from 'src/pages/NotFoundPage.vue'
+import MainLayout from 'src/admin/layouts/MainLayout.vue'
+import { authRoute } from 'src/router/auth'
+import PlansPage from './pages/PlansPage.vue'
+import ModelsPage from './pages/ModelsPage.vue'
+import PlanPricesPage from './pages/PlanPricesPage.vue'
+import WorkspacesPage from './pages/WorkspacesPage.vue'
+
+const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    component: Admin,
+    children: [
+      authRoute,
+      {
+        path: '/',
+        component: MainLayout,
+        children: [
+          {
+            path: '/',
+            component: EmptyPage,
+          },
+          {
+            path: '/users',
+            component: UsersPage,
+            meta: {
+              title: t('Users'),
+            },
+          },
+          {
+            path: '/workspaces',
+            component: WorkspacesPage,
+            meta: {
+              title: t('Workspaces'),
+            },
+          },
+          {
+            path: '/plans',
+            component: PlansPage,
+            meta: {
+              title: t('Plans'),
+            },
+          },
+          {
+            path: '/plan-prices',
+            component: PlanPricesPage,
+            meta: {
+              title: t('Plan Prices'),
+            },
+          },
+          {
+            path: '/models',
+            component: ModelsPage,
+            meta: {
+              title: t('Models'),
+            },
+          },
+          {
+            path: '/:catchAll(.*)*',
+            component: NotFoundPage,
+          },
+        ],
+      },
+    ],
+  },
+]
+
+export default routes

@@ -1,0 +1,24 @@
+FROM oven/bun:1-slim AS builder
+
+WORKDIR /app
+
+COPY bun.lock package.json ./
+RUN bun install
+
+COPY . .
+
+RUN bun run build:front
+RUN bun run build:admin
+
+FROM caddy:2-alpine AS runner
+
+ENV BACKEND_URL=backend:3000
+
+WORKDIR /srv
+
+COPY --from=builder /app/dist/pwa   ./front
+COPY --from=builder /app/dist/spa   ./admin
+
+COPY Caddyfile /etc/caddy/Caddyfile
+
+EXPOSE 8080 8081

@@ -1,0 +1,73 @@
+<template>
+  <q-header
+    bg-sur-c-low
+    text-on-sur
+  >
+    <common-toolbar>
+      <q-toolbar-title>
+        {{ t('Settings') }}
+      </q-toolbar-title>
+    </common-toolbar>
+    <q-tabs
+      active-color="primary"
+      align="left"
+      no-caps
+    >
+      <q-route-tab
+        v-for="({ label, to }, index) in allScopes"
+        :key="index"
+        :label
+        :to
+      />
+    </q-tabs>
+  </q-header>
+  <q-page-container>
+    <q-page>
+      <settings-list
+        :state
+        @update="update"
+        @reset="reset"
+      />
+    </q-page>
+  </q-page-container>
+</template>
+
+<script setup lang="ts">
+import CommonToolbar from 'src/components/CommonToolbar.vue'
+import SettingsList from 'src/components/SettingsList.vue'
+import { usePerfsState } from 'src/composables/perfs-state'
+import { t } from 'src/utils/i18n'
+import { DefaultPerfs, usePerfsStore } from 'src/stores/perfs'
+import type { Perfs } from 'src/stores/perfs'
+import { computed, provide } from 'vue'
+import { useRoute } from 'vue-router'
+import { z } from 'zod'
+
+const route = useRoute()
+const allScopes = [
+  { name: 'user', label: t('User'), to: { query: {} } },
+  { name: 'workspace', label: t('Workspace'), to: { query: { scope: 'workspace' } } },
+  { name: 'local', label: t('Local'), to: { query: { scope: 'local' } } },
+] as const
+
+const scopeSchema = z.enum(allScopes.map(scope => scope.name)).catch('user')
+const scope = computed(() => scopeSchema.parse(route.query.scope))
+const scopes = computed(() => allScopes.slice(0, allScopes.findIndex(s => s.name === scope.value) + 1))
+provide('scopes', scopes)
+
+const perfsStore = usePerfsStore()
+const { state } = usePerfsState(computed(() => scopes.value.map(s => perfsStore[`${s.name}Perfs`])), DefaultPerfs)
+
+function update<K extends keyof Perfs>(key: K, value: Perfs[K]) {
+  perfsStore.update({
+    updates: { [key]: value },
+    scope: scope.value,
+  })
+}
+function reset(key: keyof Perfs) {
+  perfsStore.update({
+    deletes: [key],
+    scope: scope.value,
+  })
+}
+</script>

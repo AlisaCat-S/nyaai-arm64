@@ -1,0 +1,146 @@
+body.body--dark,
+body.body--light {
+  background-color: var(--a-sur);
+  color: var(--a-on-sur);
+  --q-primary: var(--a-pri);
+  --q-secondary: var(--a-sec);
+  --q-accent: var(--a-ter);
+  --q-dark: var(--a-sur-c);
+  --q-dark-page: var(--a-sur);
+  --q-negative: var(--a-err);
+
+  .q-dark,
+  .q-item--dark,
+  .q-field--dark .q-field__native {
+    color: var(--a-on-sur);
+  }
+
+  .q-btn.bg-primary {
+    color: var(--a-on-pri) !important;
+  }
+
+  .q-item__label--header {
+    color: var(--a-sec);
+  }
+
+  .q-item__label--caption {
+    color: var(--a-on-sur-var);
+  }
+
+  .q-field--filled .q-field__control {
+    background-color: var(--a-sur-c);
+  }
+
+  .q-notification.bg-negative {
+    color: var(--a-on-err) !important;
+  }
+
+  .q-chip,
+  .q-menu,
+  .q-tab-panels {
+    background-color: var(--a-sur-c);
+    color: var(--a-on-sur);
+  }
+
+  .q-tooltip--style {
+    --at-apply: 'bg-inv-sur text-inv-on-sur';
+  }
+
+  .q-checkbox__svg {
+    color: var(--a-on-pri);
+  }
+
+  .q-toggle {
+    .q-toggle__inner {
+      padding: 0.18em 0.16em;
+      margin: 0 -0.16em;
+      width: 1.5em;
+    }
+
+    .q-toggle__track {
+      height: 0.64em;
+      border-radius: 1em;
+    }
+
+    .q-toggle__thumb {
+      top: 0.26em;
+      left: 0.26em;
+      width: 0.48em;
+      height: 0.48em;
+
+      &::after {
+        box-shadow: none;
+        background-color: var(--a-sur-c);
+      }
+    }
+
+    .q-toggle__inner--truthy {
+      .q-toggle__thumb {
+        left: 0.76em;
+      }
+
+      .q-toggle__track {
+        opacity: 1;
+      }
+
+      .q-toggle__thumb::after {
+        background-color: var(--a-on-pri);
+      }
+    }
+  }
+
+  .q-item.q-router-link--active,
+  .q-item--active {
+    --at-apply: 'route-active';
+  }
+
+  .q-btn.sm-icon .q-icon,
+  .q-btn[sm-icon=""] .q-icon {
+    font-size: 1.4em;
+    margin-right: 8px;
+  }
+
+  .q-menu,
+  .q-card {
+    --at-apply: 'shadow-default';
+  }
+
+
+  .q-menu .q-item {
+    min-height: 40px;
+  }
+
+  .q-avatar .q-icon {
+    font-size: 1.2em;
+  }
+
+  .q-item--active.text-grey-8 {
+    --at-apply: 'important:text-on-sec-c';
+  }
+
+  .q-btn--dense .q-icon {
+    font-size: 1.5em;
+  }
+}
+
+.q-btn--rectangle {
+  border-radius: 4px;
+}
+
+.q-field--dark:not(.q-field--highlighted) .q-field__label,
+.q-field--dark .q-field__marginal,
+.q-field--dark .q-field__bottom {
+  color: var(--a-on-sur-var);
+}
+
+.q-item__section--side {
+  color: var(--a-on-sur-var);
+}
+
+.q-item__section--avatar {
+  color: inherit;
+}
+
+.q-card {
+  background-color: var(--a-sur-c);
+}

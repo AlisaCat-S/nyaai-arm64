@@ -1,0 +1,68 @@
+:8080 {
+	root * /srv/front
+
+	@forbidden_admin_api {
+		path /api/admin* /api/auth/admin*
+	}
+	handle @forbidden_admin_api {
+		respond "Forbidden" 403
+	}
+
+	@api path /api/*
+	handle @api {
+		reverse_proxy {env.BACKEND_URL}
+	}
+
+	@zero_cache path /zero-cache
+	handle_path @zero_cache {
+		reverse_proxy {env.ZERO_CACHE_URL}
+	}
+
+	@static file {
+		root /srv/front
+	}
+	handle @static {
+		try_files {path} /index.html
+		file_server {
+			precompressed br gzip
+		}
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server {
+			precompressed br gzip
+		}
+	}
+}
+
+:8081 {
+	root * /srv/admin
+
+	@api path /api/*
+	handle @api {
+		reverse_proxy {env.BACKEND_URL}
+	}
+
+	@zero_cache path /zero-cache
+	handle @zero_cache {
+		reverse_proxy {env.ZERO_CACHE_URL}
+	}
+
+	@static file {
+		root /srv/admin
+	}
+	handle @static {
+		try_files {path} /index.html
+		file_server {
+			precompressed br gzip
+		}
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server {
+			precompressed br gzip
+		}
+	}
+}
