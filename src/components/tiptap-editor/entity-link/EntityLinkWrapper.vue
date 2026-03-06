@@ -9,8 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import type { NodeViewProps } from '@tiptap/vue-3'
+import { NodeViewWrapper } from '@tiptap/vue-3'
 import EntityLink from 'src/components/EntityLink.vue'
 
-defineProps(nodeViewProps)
+defineProps<NodeViewProps>()
 </script>

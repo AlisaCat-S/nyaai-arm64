@@ -47,11 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { NodeViewContent, nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
+import type { NodeViewProps } from '@tiptap/vue-3'
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3'
 import CopyBtn from 'src/components/CopyBtn.vue'
 import { ref } from 'vue'
 
-defineProps(nodeViewProps)
+defineProps<NodeViewProps>()
 
 const open = ref(true)
 </script>
