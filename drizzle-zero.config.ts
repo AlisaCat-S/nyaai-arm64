@@ -1,4 +1,4 @@
-import { drizzleZeroConfig } from 'drizzle-zero'
+import { drizzleZeroConfig } from '@krytro/drizzle-zero'
 import * as schema from './src-server/schema'
 
 export default drizzleZeroConfig(schema, {

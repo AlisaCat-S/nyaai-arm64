@@ -3,7 +3,7 @@
 
 import type { ReadonlyJSONValue, Row } from "@rocicorp/zero";
 import { createBuilder } from "@rocicorp/zero";
-import type { ZeroCustomType } from "drizzle-zero";
+import type { ZeroCustomType } from "@krytro/drizzle-zero";
 import type { default as zeroSchema } from "../drizzle-zero.config";
 
 const assistantTable = {

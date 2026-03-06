@@ -40,3 +40,5 @@ yarn-error.log*
 .VSCodeCounter
 
 .sonda
+
+/tmp.ts

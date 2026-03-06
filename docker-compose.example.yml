@@ -73,3 +73,7 @@ services:
     healthcheck:
       test: curl -f http://localhost:4848/keepalive
       interval: 5s
+
+volumes:
+  pgdata:
+  zero-cache-data:
