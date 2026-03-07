@@ -8,6 +8,7 @@ export const S3_REGION = process.env.S3_REGION!
 export const S3_BUCKET = process.env.S3_BUCKET!
 export const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID!
 export const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY!
+export const SEARXNG_URL = process.env.SEARXNG_URL!
 export const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env
 export const { SMTP_USER, SMTP_PASSWORD, SMTP_HOST, SMTP_FROM } = process.env
 export const SMTP_PORT = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : undefined

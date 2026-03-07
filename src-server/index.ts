@@ -7,6 +7,7 @@ import ai from './ai'
 import { seed } from './utils/seed'
 import admin from './admin'
 import payment from './payment'
+import searxng from './searxng'
 
 seed()
 
@@ -17,6 +18,7 @@ export const app = new Hono().basePath('/api')
   .route('/v1', ai)
   .route('/admin', admin)
   .route('/payment', payment)
+  .route('/searxng', searxng)
   .use(logger())
 
 export default app
