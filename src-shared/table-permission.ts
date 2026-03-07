@@ -1,6 +1,7 @@
 import type { DefaultSchema, Query } from '@rocicorp/zero'
 import type { WorkspaceRole } from './utils/validators'
 import { assert } from './utils/functions'
+import { PUBLIC_ROOT_ID } from './utils/config'
 
 export const workspaceContentTables = [
   'message',
@@ -42,8 +43,10 @@ export function withReadable<Q extends Query<WorkspaceContentTable, DefaultSchem
       ? [exists('member', q => q.where('userId', userId))]
       : [],
     exists('entity', q => q
-      .where('pubRoot', 'IS NOT', null)
-      .whereExists('workspace'), // ensure it is not in the trash
+      .where(({ or, and, cmp, exists }) => or(
+        and(cmp('pubRoot', 'IS NOT', null), exists('workspace')), // ensure it is not in the trash
+        cmp('id', PUBLIC_ROOT_ID),
+      )),
     ),
   )) as Q
 }

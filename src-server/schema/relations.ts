@@ -63,7 +63,7 @@ export const relations = defineRelations(schema, r => ({
   model: {
     member: r.one.member({ from: r.model.rootId, to: r.member.workspaceId }),
     provider: r.one.provider({ from: r.model.entityId, to: r.provider.id }),
-    entity: r.one.entity({ from: r.model.id, to: r.entity.id }),
+    entity: r.one.entity({ from: r.model.entityId, to: r.entity.id }),
   },
   assistant: {
     member: r.one.member({ from: r.assistant.rootId, to: r.member.workspaceId }),

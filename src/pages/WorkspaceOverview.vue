@@ -65,7 +65,7 @@
           :label="t('AI quota usage')"
           :caption="t('Next reset time: {0}', new Date(workspace.resetAt).toLocaleString())"
         >
-          ${{ workspace.quotaUsed }} / ${{ workspace.plan!.quotaLimit }}
+          ${{ workspace.quotaUsed.toFixed(4) }} / ${{ workspace.plan!.quotaLimit }}
         </common-item>
         <q-separator spaced />
         <div

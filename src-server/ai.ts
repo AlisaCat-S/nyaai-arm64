@@ -139,7 +139,11 @@ app.post('/chat/completions',
 
     const upstreamResponse = await fetchUpstream(body)
 
-    if (!upstreamResponse.ok) return upstreamResponse
+    if (!upstreamResponse.ok) {
+      return new Response(upstreamResponse.body, {
+        status: upstreamResponse.status,
+      })
+    }
 
     if (!stream) {
       const data = await upstreamResponse.json()
@@ -222,7 +226,9 @@ app.post('/chat/completions',
     processStream()
 
     return new Response(readable, {
-      headers: upstreamResponse.headers,
+      headers: {
+        'Content-Type': 'text/event-stream',
+      },
     })
   })
 

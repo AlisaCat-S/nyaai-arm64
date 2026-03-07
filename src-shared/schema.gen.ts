@@ -2202,7 +2202,7 @@ const modelRelationships = {
   ],
   entity: [
     {
-      sourceField: ["id"],
+      sourceField: ["entityId"],
       destField: ["id"],
       destSchema: "entity",
       cardinality: "one",

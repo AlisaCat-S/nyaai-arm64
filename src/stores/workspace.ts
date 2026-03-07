@@ -19,8 +19,10 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     id.value ? queries.fullWorkspace(id.value) : null,
   )
 
+  z.preload(queries.publicModels())
   watchEffect(() => {
     if (!id.value) return
+    z.preload(queries.models(id.value))
     z.preload(queries.entity({ id: id.value, children: { depth: 3 } }))
     z.preload(queries.recentChats(id.value))
     z.preload(queries.recentChannels(id.value))

@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { useDialogPluginComponent } from 'quasar'
 import { t } from 'src/utils/i18n'
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { mutate } from 'src/utils/zero-session'
 import { mutators } from 'app/src-shared/mutators'
 import ShortcutInputItems from './ShortcutInputItems.vue'
@@ -47,7 +47,7 @@ const props = defineProps<{
 }>()
 
 const activeEntitiesStore = useActiveEntitiesStore()
-const model = reactive({
+const model = ref({
   ...activeEntitiesStore.shortcuts.find(s => s.id === props.id),
 })
 
@@ -60,7 +60,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 function update() {
   mutate(mutators.updateShortcut({
     id: props.id,
-    ...model,
+    ...model.value,
   })).client.then(onDialogOK)
 }
 </script>

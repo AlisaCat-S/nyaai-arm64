@@ -75,6 +75,7 @@
               :options="['google', 'github']"
               multiple
               dense
+              class="min-w-100px"
             />
           </common-item>
         </q-list>

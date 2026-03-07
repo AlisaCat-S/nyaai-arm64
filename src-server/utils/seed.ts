@@ -24,7 +24,6 @@ export async function seed() {
     ...entityDefaultProps,
     id: PUBLIC_ROOT_ID,
     rootId: PUBLIC_ROOT_ID,
-    pubRoot: PUBLIC_ROOT_ID,
     parentId: null,
     type: 'folder',
     name: 'Public',

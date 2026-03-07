@@ -1,2 +1,2 @@
-#include .gitignore
 !.env
+#include .gitignore

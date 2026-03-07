@@ -14,7 +14,7 @@ export function toSdkModel({ provider, name }: FullModel) {
       headers: {
         'Workspace-Id': workspaceStore.id!,
       },
-      ...settings as { baseURL: string },
+      baseURL: `${location.origin}/api/v1`,
     }).languageModel(name)
   }
   return providerTypes[type].model.language(settings, name)

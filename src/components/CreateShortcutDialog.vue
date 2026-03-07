@@ -43,7 +43,7 @@
 import { useDialogPluginComponent } from 'quasar'
 import { t } from 'src/utils/i18n'
 import CommonItem from './CommonItem.vue'
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import type { EntityType } from 'app/src-shared/utils/validators'
 import { mutate } from 'src/utils/zero-session'
 import { mutators } from 'app/src-shared/mutators'
@@ -55,7 +55,7 @@ const props = defineProps<{
   parentId: string
 }>()
 
-const model = reactive({
+const model = ref({
   name: '',
   type: null as EntityType | null,
   dirId: null as string | null,
@@ -72,7 +72,7 @@ function create() {
   mutate(mutators.createShortcut({
     id: genId(),
     parentId: props.parentId,
-    ...model,
+    ...model.value,
   })).client.then(onDialogOK)
 }
 </script>

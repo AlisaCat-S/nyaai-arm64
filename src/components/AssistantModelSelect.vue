@@ -52,6 +52,7 @@
           </q-item-label>
           <dense-item
             :label="modelName(modelMap[assistant.modelId])"
+            :avatar="modelAvatar(modelMap[assistant.modelId])"
             :caption="modelMap[assistant.modelId]?.caption"
             @click="modelId = null"
             :active="!modelId"
@@ -68,6 +69,7 @@
           </q-item-label>
           <dense-item
             :label="modelName(modelMap[conf.chatModelId])"
+            :avatar="modelAvatar(modelMap[conf.chatModelId])"
             :caption="modelMap[conf.chatModelId]?.caption"
             @click="modelId = conf.chatModelId"
             :active="!modelId"
@@ -87,6 +89,7 @@
             :key="model.id"
             clickable
             :label="modelName(model)"
+            :avatar="modelAvatar(model)"
             :caption="model.caption"
             @click="modelId = model.id"
             :active="modelId === model.id"
@@ -105,6 +108,7 @@
             :key="model.id"
             clickable
             :label="modelName(model)"
+            :avatar="modelAvatar(model)"
             :caption="model.caption"
             @click="modelId = model.id"
             :active="modelId === model.id"
@@ -117,7 +121,7 @@
 </template>
 
 <script setup lang="ts">
-import { entityAvatar, entityName, modelName } from 'src/utils/defaults'
+import { entityAvatar, entityName, modelAvatar, modelName } from 'src/utils/defaults'
 import { queries } from 'app/src-shared/queries'
 import DenseItem from './DenseItem.vue'
 import { useQuery } from 'src/composables/zero/query'

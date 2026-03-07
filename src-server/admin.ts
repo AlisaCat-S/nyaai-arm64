@@ -164,7 +164,9 @@ const app = new Hono()
     },
   )
   .post('/updateGlobalSettings',
-    zValidator('json', createUpdateSchema(globalSettings).required({ id: true })),
+    zValidator('json', createUpdateSchema(globalSettings).required({ id: true }).extend({
+      oauthProviders: z.array(z.string()).optional(),
+    })),
     async c => {
       const session = await auth.api.getSession({ headers: c.req.raw.headers })
       if (session?.user.role !== 'admin') return c.json({ error: 'Unauthorized' }, 401)

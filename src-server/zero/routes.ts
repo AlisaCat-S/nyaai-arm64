@@ -23,7 +23,7 @@ async function getCtx(headers: Headers): Promise<Context> {
 
 const app = new Hono()
 
-app.post('/push', async c => {
+app.post('/mutate', async c => {
   const ctx = await getCtx(c.req.raw.headers)
   if (!ctx.userId) return c.json({ error: 'Unauthorized' }, 401)
   return c.json(await handleMutateRequest(
