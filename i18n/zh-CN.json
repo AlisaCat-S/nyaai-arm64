@@ -145,7 +145,7 @@
   "Info": "信息",
   "Icon": "图标",
   "Display Name": "显示名称",
-  "Caption": "标题",
+  "Caption": "说明",
   "Multimodal Capabilities": "多模态能力",
   "Files matching the MIME types will be directly input to the model.": "与 MIME 类型匹配的文件将直接输入给模型。",
   "User input types": "用户输入类型",

@@ -13,7 +13,7 @@
 		reverse_proxy {$SERVER_URL}
 	}
 
-	handle_path /zero-cache {
+	handle_path /zero-cache/* {
 		reverse_proxy {$ZERO_CACHE_URL}
 	}
 
@@ -43,7 +43,7 @@
 		reverse_proxy {$SERVER_URL}
 	}
 
-	handle_path /zero-cache {
+	handle_path /zero-cache/* {
 		reverse_proxy {$ZERO_CACHE_URL}
 	}
 
