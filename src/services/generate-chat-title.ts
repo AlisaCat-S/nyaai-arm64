@@ -21,7 +21,7 @@ export async function generateChatTitle({ chat, model }: {
     prompt,
   })
   const [emoji, title] = text.split(' ', 2)
-  if (emoji.length === 2) {
+  if ([1, 2].includes(emoji.length)) {
     await mutate(mutators.updateEntity({
       id: chat.id,
       name: title,

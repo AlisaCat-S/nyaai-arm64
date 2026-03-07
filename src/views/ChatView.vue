@@ -196,6 +196,7 @@ import MessageInput from 'src/components/MessageInput.vue'
 import { usePerfsStore } from 'src/stores/perfs'
 import { useChatScroll } from 'src/composables/chat-scroll'
 import MessageItem from 'src/components/MessageItem.vue'
+import { flush } from 'src/composables/state-proxy'
 
 const props = defineProps<{
   chat: FullChat
@@ -305,6 +306,7 @@ async function send() {
   if (!params) return
   const { id } = props.chat
   const target = chain.value.at(-1)!
+  flush(target)
   await mutate(mutators.appendMessagePair({
     entityId: id,
     target,

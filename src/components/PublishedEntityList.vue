@@ -44,7 +44,7 @@
       min-h-0
     >
       <q-item-section text-on-sur-var>
-        {{ t('No items') }}
+        {{ t('There are no published items. Right-click on the items in the right sidebar to publish it to the public internet.') }}
       </q-item-section>
     </q-item>
   </q-list>

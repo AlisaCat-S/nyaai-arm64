@@ -55,7 +55,7 @@ export async function streamMessage(entityId: string, id: string, ...params: Par
   finish(id)
   const usage = await result.usage
   const warnings = (await result.warnings)?.map(w => w.type === 'other' ? w.message : w.details).filter(w => w != null)
-  mutate(mutators.updateAssistantMessage({ id, usage, warnings }))
+  await mutate(mutators.updateAssistantMessage({ id, usage, warnings })).client
 }
 
 export type CompletionConfig = {
