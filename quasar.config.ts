@@ -69,7 +69,7 @@ export default defineConfig((/* ctx */) => {
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
-      sourcemap: 'hidden',
+      sourcemap: false,
 
       vitePlugins: [
         ['vite-plugin-checker', {
@@ -183,7 +183,9 @@ export default defineConfig((/* ctx */) => {
       // useCredentialsForManifestTag: true,
       // injectPwaMetaTags: false,
       // extendPWACustomSWConf (esbuildConf) {},
-      // extendGenerateSWOptions (cfg) {},
+      extendGenerateSWOptions (cfg) {
+        cfg.globPatterns = ['**/*.{js,css,html,ico,png,svg,woff2}']
+      },
       // extendInjectManifestOptions (cfg) {}
     },
 

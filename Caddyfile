@@ -10,11 +10,11 @@
 
 	@api path /api/*
 	handle @api {
-		reverse_proxy {env.SERVER_URL}
+		reverse_proxy {$SERVER_URL}
 	}
 
 	handle_path /zero-cache {
-		reverse_proxy {env.ZERO_CACHE_URL}
+		reverse_proxy {$ZERO_CACHE_URL}
 	}
 
 	@static file {
@@ -40,11 +40,11 @@
 
 	@api path /api/*
 	handle @api {
-		reverse_proxy {env.SERVER_URL}
+		reverse_proxy {$SERVER_URL}
 	}
 
 	handle_path /zero-cache {
-		reverse_proxy {env.ZERO_CACHE_URL}
+		reverse_proxy {$ZERO_CACHE_URL}
 	}
 
 	@static file {
