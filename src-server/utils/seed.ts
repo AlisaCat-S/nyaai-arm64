@@ -10,6 +10,7 @@ export async function seed() {
     freeModelReqLimit: 60,
     freeModelLimitWindow: 3600 * 1000,
     maxWorkspacesPerUser: 10,
+    oauthProviders: [],
   }).onConflictDoNothing()
   await db.insert(plan).values({
     id: DEFAULT_PLAN_ID,
@@ -23,6 +24,7 @@ export async function seed() {
     ...entityDefaultProps,
     id: PUBLIC_ROOT_ID,
     rootId: PUBLIC_ROOT_ID,
+    pubRoot: PUBLIC_ROOT_ID,
     parentId: null,
     type: 'folder',
     name: 'Public',

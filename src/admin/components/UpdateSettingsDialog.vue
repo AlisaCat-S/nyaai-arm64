@@ -68,6 +68,15 @@
               class="w-100px"
             />
           </common-item>
+          <common-item :label="t('OAuth Providers')">
+            <q-select
+              :model-value="value.oauthProviders"
+              @update:model-value="updates.oauthProviders = $event"
+              :options="['google', 'github']"
+              multiple
+              dense
+            />
+          </common-item>
         </q-list>
       </q-card-section>
       <q-card-actions align="right">

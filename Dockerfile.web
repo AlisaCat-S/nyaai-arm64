@@ -1,7 +1,5 @@
 FROM imbios/bun-node:22-slim AS builder
 
-ARG OAUTH_PROVIDERS
-
 WORKDIR /app
 
 COPY bun.lock package.json ./

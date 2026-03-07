@@ -1,10 +1,10 @@
 :8080 {
 	root * /srv/front
 
-	@forbidden_admin_api {
-		path /api/admin* /api/auth/admin*
+	@forbidden {
+		path /api/admin* /api/auth/admin* /api/zero*
 	}
-	handle @forbidden_admin_api {
+	handle @forbidden {
 		respond "Forbidden" 403
 	}
 
@@ -37,6 +37,10 @@
 
 :8081 {
 	root * /srv/admin
+
+	handle /api/zero* {
+		respond "Forbidden" 403
+	}
 
 	@api path /api/*
 	handle @api {

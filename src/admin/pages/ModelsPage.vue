@@ -46,7 +46,7 @@ import { idDateString } from 'app/src-shared/utils/id'
 import { textBeginning } from 'src/utils/functions'
 
 const columns: QTableColumn[] = [
-  { name: 'name', label: t('Name'), field: 'name', sortable: true },
+  { name: 'name', label: t('Name'), field: 'name', sortable: true, align: 'left' },
   { name: 'label', label: t('Label'), field: 'label', sortable: true },
   { name: 'caption', label: t('Caption'), field: 'caption', format: val => val && textBeginning(val, 20) },
   { name: 'inputPrice', label: t('Input Price'), field: 'inputPrice', sortable: true },

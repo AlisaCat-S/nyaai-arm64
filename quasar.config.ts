@@ -88,9 +88,6 @@ export default defineConfig((/* ctx */) => {
           new URL(`./src/${process.env.TARGET_APP === 'admin' ? 'admin' : 'router'}/routes`, import.meta.url),
         ),
       },
-      env: {
-        OAUTH_PROVIDERS: process.env.OAUTH_PROVIDERS,
-      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver

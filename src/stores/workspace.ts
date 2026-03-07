@@ -19,7 +19,6 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     id.value ? queries.fullWorkspace(id.value) : null,
   )
 
-  z.preload(queries.globalSettings())
   watchEffect(() => {
     if (!id.value) return
     z.preload(queries.entity({ id: id.value, children: { depth: 3 } }))

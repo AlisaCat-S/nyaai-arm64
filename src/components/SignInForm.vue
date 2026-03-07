@@ -48,11 +48,11 @@
       />
     </div>
     <q-separator
-      v-if="OAUTH_PROVIDERS.length"
+      v-if="oauthProviders?.length"
       spaced
     />
     <q-btn
-      v-if="OAUTH_PROVIDERS.includes('google')"
+      v-if="oauthProviders?.includes('google')"
       @click="signInWith('google')"
       w-full
       unelevated
@@ -68,7 +68,7 @@
       <span ml-2>{{ t('Continue with Google') }}</span>
     </q-btn>
     <q-btn
-      v-if="OAUTH_PROVIDERS.includes('github')"
+      v-if="oauthProviders?.includes('github')"
       @click="signInWith('github')"
       w-full
       unelevated
@@ -91,19 +91,22 @@
 import { useQuasar } from 'quasar'
 import { t } from 'src/utils/i18n'
 import { authClient } from 'src/utils/auth-client'
-import { reactive, ref } from 'vue'
-import { OAUTH_PROVIDERS } from 'src/utils/config'
+import { computed, reactive, ref } from 'vue'
 import AAvatar from 'src/components/AAvatar.vue'
 import ForgotPasswordDialog from './ForgotPasswordDialog.vue'
 import VerifyEmailDialog from './VerifyEmailDialog.vue'
 import { useRouter } from 'vue-router'
 import { user } from 'src/utils/zero-session'
 import { until } from '@vueuse/core'
+import { useGlobalSettingsStore } from 'src/stores/global-settings'
 
 const input = reactive({
   email: '',
   password: '',
 })
+
+const globalSettingsStore = useGlobalSettingsStore()
+const oauthProviders = computed(() => globalSettingsStore.settings?.oauthProviders)
 
 const loading = ref(false)
 const $q = useQuasar()
