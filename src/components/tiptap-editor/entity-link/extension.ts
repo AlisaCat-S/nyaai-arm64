@@ -27,6 +27,6 @@ export const EntityLink = Node.create({
   ],
 
   addNodeView() {
-    return VueNodeViewRenderer(EntityLinkWrapper as any)
+    return VueNodeViewRenderer(EntityLinkWrapper)
   },
 })

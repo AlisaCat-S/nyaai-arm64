@@ -7,7 +7,7 @@ const lowlight = createLowlight(common)
 
 export const CodeBlock = CodeBlockLowlight.extend({
   addNodeView() {
-    return VueNodeViewRenderer(EditorCodeBlock as any)
+    return VueNodeViewRenderer(EditorCodeBlock)
   },
 }).configure({
   lowlight,
