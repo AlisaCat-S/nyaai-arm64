@@ -153,7 +153,10 @@
           </template>
         </div>
       </div>
-      <div>
+      <div
+        class="group"
+        pos-relative
+      >
         <q-expansion-item
           v-if="message.reasoning"
           icon="sym_o_auto_awesome"
@@ -218,6 +221,22 @@
           :key="index"
         >
           {{ warning }}
+        </div>
+        <div
+          text="out xs"
+          pos-absolute
+          left-0
+          right-0
+          bottom--1
+          translate-y="100%"
+          opacity-0
+          group-hover:opacity-100
+          transition="opacity 250"
+          whitespace-nowrap
+          flex
+        >
+          <span>{{ message.modelName }}</span>
+          <span ml-a>{{ timeText(message) }}</span>
         </div>
         <q-linear-progress
           v-if="generating"
@@ -423,6 +442,12 @@ const handleHtmlChanged = () => {
 }
 
 const perfsStore = usePerfsStore()
+
+function timeText(message: FullMessage) {
+  if (message.editedAt) return t('Edited at {0}', new Date(message.editedAt).toLocaleString())
+  if (message.sentAt) return new Date(message.sentAt).toLocaleString()
+  return null
+}
 </script>
 <style lang="scss">
 .reasoning-content-header {

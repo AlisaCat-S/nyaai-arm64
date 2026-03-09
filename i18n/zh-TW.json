@@ -556,5 +556,10 @@
   "Hidden": "隱",
   "Directory Settings": "目錄設定",
   "Abort Task": "中止任務",
-  "Or, find existing files below:": "或者，找到下面的現有文件："
+  "Or, find existing files below:": "或者，找到下面的現有文件：",
+  "Sent At": "發送於",
+  "Edited At": "編輯於",
+  "Edited at {0}": "編輯於 {0}",
+  "AI Quota Exceeded. Please upgrade your plan or switch to free models.": "AI 超出配額。 請升級您的方案或切換到免費型號。",
+  "Upgrade Plan": "升級計劃"
 }

@@ -7,7 +7,7 @@
       <assistant-model-select
         v-if="$route.params.type === 'chat' && workspaceStore.id"
         :assistant-id="conf.chatAssistantId"
-        :model-id="modelId"
+        :model-id="chat.modelId"
         :workspace-id="workspaceStore.id"
         :conf="conf"
         @update:assistant-id="switchAssistant"
@@ -186,7 +186,7 @@ import { streamChat } from 'src/services/stream-message'
 import { generateChatTitle } from 'src/services/generate-chat-title'
 import type { LayoutPosition } from 'src/utils/types'
 import { useRoute } from 'vue-router'
-import { entityName, modelInputTypes } from 'src/utils/defaults'
+import { entityName, modelInputTypes, modelName } from 'src/utils/defaults'
 import { usePlugins } from 'src/composables/plugins'
 import PluginToggleItems from 'src/components/PluginToggleItems.vue'
 import { editPageSdkTool } from 'src/utils/edit-page'
@@ -248,9 +248,10 @@ async function regenerate(parent: string) {
   await mutate(mutators.appendMessagePair({
     entityId: props.chat.id,
     target: parent,
-    aProps: { id: genId(), assistantId: assistant.value!.id, modelName: model.value!.name, sentAt: Date.now() },
+    aProps: { id: genId(), assistantId: assistant.value!.id, modelName: modelName(model.value), sentAt: Date.now() },
     uProps: { id: genId() },
   })).client
+  console.log(modelName(model.value))
   stream(params)
 }
 

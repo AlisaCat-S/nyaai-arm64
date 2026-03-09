@@ -556,5 +556,10 @@
   "Hidden": "隐藏",
   "Directory Settings": "目录设置",
   "Abort Task": "中止任务",
-  "Or, find existing files below:": "或者，在下面查找现有文件："
+  "Or, find existing files below:": "或者，在下面查找现有文件：",
+  "Sent At": "发送于",
+  "Edited At": "编辑于",
+  "Edited at {0}": "编辑于 {0}",
+  "AI Quota Exceeded. Please upgrade your plan or switch to free models.": "AI 额度已用尽。请升级计划或切换到免费模型",
+  "Upgrade Plan": "升级计划"
 }

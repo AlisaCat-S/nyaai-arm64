@@ -11,22 +11,24 @@
       </q-card-section>
       <q-card-section p-0>
         <q-list>
-          <q-item>
-            <q-item-section>
-              ID
-            </q-item-section>
-            <q-item-section side>
-              {{ message.id }}
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              {{ t('Created At') }}
-            </q-item-section>
-            <q-item-section side>
-              {{ idDateString(message.id) }}
-            </q-item-section>
-          </q-item>
+          <common-item label="ID">
+            {{ message.id }}
+          </common-item>
+          <common-item :label="t('Created At')">
+            {{ idDateString(message.id) }}
+          </common-item>
+          <common-item
+            :label="t('Sent At')"
+            v-if="message.sentAt"
+          >
+            {{ new Date(message.sentAt).toLocaleString() }}
+          </common-item>
+          <common-item
+            :label="t('Edited At')"
+            v-if="message.editedAt"
+          >
+            {{ new Date(message.editedAt).toLocaleString() }}
+          </common-item>
           <q-item>
             <q-item-section>
               {{ t('Text Length') }}
@@ -48,7 +50,7 @@
               {{ t('Token Usage') }}
             </q-item-section>
             <q-item-section side>
-              {{ t('Prompt: ') }}{{ message.usage.inputTokens }} ，{{ t('Completion: ') }}{{ message.usage.outputTokens }}
+              {{ t('Input: ') }}{{ message.usage.inputTokens }}, {{ t('Output: ') }}{{ message.usage.outputTokens }}
             </q-item-section>
           </q-item>
         </q-list>
@@ -70,6 +72,7 @@ import { useDialogPluginComponent } from 'quasar'
 import { t } from 'src/utils/i18n'
 import { idDateString } from 'app/src-shared/utils/id'
 import type { Row } from '@rocicorp/zero'
+import CommonItem from './CommonItem.vue'
 
 defineProps<{
   message: Row['message']
