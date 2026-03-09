@@ -543,7 +543,6 @@
   "Drag / paste /": "拖曳/貼上/",
   "click here": "點這裡",
   "to upload files": "上傳文件",
-  "Or, filter existing files below:": "或者，過濾以下現有文件：",
   "Added {p0 file}; you can view the upload progress by clicking \"Tasks\" at the bottom right.": "新增了{p0檔}；您可以透過點擊右下角的「任務」來查看上傳進度。",
   "Files": "文件",
   "Nya AI can also be your cloud drive. Uploading files here brings the following benefits:": "Nya AI 也可以成為您的雲端硬碟。 在這裡上傳文件有以下好處：",
@@ -555,5 +554,7 @@
   "Click <strong>\"Upload Files\"</strong> in the right sidebar to get started.": "點擊右側邊欄中的<strong>「上傳檔案」</strong>即可開始。",
   "Sort Priority": "排序優先級",
   "Hidden": "隱",
-  "Directory Settings": "目錄設定"
+  "Directory Settings": "目錄設定",
+  "Abort Task": "中止任務",
+  "Or, find existing files below:": "或者，找到下面的現有文件："
 }
