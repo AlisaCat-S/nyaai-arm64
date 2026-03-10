@@ -108,13 +108,6 @@
           round
         />
         <q-btn
-          icon="sym_o_add"
-          :title="t('Add Item')"
-          flat
-          round
-          @click="selectEntities"
-        />
-        <q-btn
           v-if="$route.params.type === 'chat'"
           flat
           :round="!activePluginCount"
@@ -132,12 +125,20 @@
           <q-menu>
             <q-list>
               <plugin-toggle-items
-                :model-value="plugins"
+                :model-value="pluginIds"
                 @update:model-value="updatePlugins"
+                :status="Object.fromEntries(Object.entries(plugins).map(([id, { status }]) => [id, status]))"
               />
             </q-list>
           </q-menu>
         </q-btn>
+        <q-btn
+          icon="sym_o_add"
+          :title="t('Add Item')"
+          flat
+          round
+          @click="selectEntities"
+        />
         <q-space />
         <div
           v-if="usage"
@@ -209,6 +210,7 @@ import { useChatScroll } from 'src/composables/chat-scroll'
 import MessageItem from 'src/components/MessageItem.vue'
 import { flush } from 'src/composables/state-proxy'
 import ProviderOptionsBtn from 'src/components/ProviderOptionsBtn.vue'
+import { DefaultPromptTemplate } from 'src/utils/templates'
 
 const props = defineProps<{
   chat: FullChat
@@ -221,9 +223,9 @@ const { data: assistant } = useQuery(() => conf.value.chatAssistantId ? queries.
 const modelId = computed(() => props.chat.modelId ?? assistant.value?.modelId ?? conf.value.chatModelId)
 const { data: model } = useQuery(() => modelId.value ? queries.fullModel(modelId.value) : null)
 
-const plugins = computed(() => props.chat.plugins ?? assistant.value?.plugins ?? [])
-const { tools, status: pluginStatus } = usePlugins(plugins)
-const activePluginCount = computed(() => Object.values(pluginStatus.value).filter(status => status === 'ready').length)
+const pluginIds = computed(() => props.chat.plugins ?? assistant.value?.plugins ?? [])
+const { plugins, pluginsPrompt } = usePlugins(pluginIds)
+const activePluginCount = computed(() => Object.values(plugins.value).filter(({ status }) => status === 'ready').length)
 
 function updatePlugins(plugins: string[]) {
   mutate(mutators.updateChat({
@@ -400,14 +402,15 @@ async function getCompletionConfig(): Promise<CompletionConfig | undefined> {
     if (assistant.value) {
       const { promptTemplate, promptRole, contextNum, streamSettings, prompt } = assistant.value
       return {
-        promptTemplate,
+        promptTemplate: promptTemplate || DefaultPromptTemplate,
         promptRole,
         contextNum,
         streamSettings,
         vars: {
           _rolePrompt: prompt,
-        }, // TODO: add vars
-        tools: tools.value,
+          _pluginsPrompt: pluginsPrompt.value,
+        },
+        tools: Object.fromEntries(Object.entries(plugins.value).map(([id, { tools }]) => [id, tools])),
         sdkTools: providerTools.value,
         providerOptions: providerOptions.value,
       }

@@ -12,6 +12,9 @@ const app = new Hono()
     const resp = await fetch(target, { headers: c.req.raw.headers })
     return new Response(resp.body, {
       status: resp.status,
+      headers: {
+        'content-type': 'application/json',
+      },
     })
   })
 

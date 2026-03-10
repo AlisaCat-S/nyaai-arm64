@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { Notify } from 'quasar'
 import { t } from 'src/utils/i18n'
 import type { PluginPrompt, PluginResource, PluginTool } from 'app/src-shared/utils/types'
+import { engine } from 'src/utils/template-engine'
 
 export const DefaultKeepAliveTimeout = 300
 export const DefaultRequestTimeout = 60
@@ -136,14 +137,21 @@ export function usePlugins(ids: Ref<string[]>) {
     from.filter(x => x.type === 'mcp').forEach(clientDown)
     to.filter(x => x.type === 'mcp').forEach(clientUp)
   }, { immediate: true })
-  const tools = computed(() => Object.fromEntries(manifests.value.map(x => [x.id, x.type === 'builtin' ? x.tools : pool[x.id].tools.value])))
-  const resources = computed(() => Object.fromEntries(manifests.value.map(x => [x.id, x.type === 'builtin' ? x.resources : pool[x.id].resources.value])))
-  const prompts = computed(() => Object.fromEntries(manifests.value.map(x => [x.id, x.type === 'builtin' ? x.prompts : pool[x.id].prompts.value])))
-  const status = computed(() => Object.fromEntries(manifests.value.map(x => [x.id, x.type === 'builtin' ? 'ready' : pool[x.id].status.value])))
+  const plugins = computed(() => Object.fromEntries(manifests.value.map(x => [x.id, {
+    tools: x.type === 'builtin' ? x.tools : pool[x.id].tools.value,
+    resources: x.type === 'builtin' ? x.resources : pool[x.id].resources.value,
+    prompts: x.type === 'builtin' ? x.prompts : pool[x.id].prompts.value,
+    status: x.type === 'builtin' ? 'ready' : pool[x.id].status.value,
+  }])))
+  const pluginsPrompt = computed(() => {
+    const builtin = manifests.value.filter(x => x.type === 'builtin')
+    if (!builtin.length) return ''
+    return engine.parseAndRenderSync(pluginsPrompt, {
+      plugins: builtin,
+    })
+  })
   return {
-    tools,
-    resources,
-    prompts,
-    status,
+    plugins,
+    pluginsPrompt,
   }
 }

@@ -1,14 +1,12 @@
 <template>
   <q-item
-    v-for="{ id, name, avatar } of store.plugins"
+    v-for="{ id, name, avatar, description } of store.plugins"
     :key="id"
     clickable
     @click="$emit(
       'update:modelValue',
       modelValue.includes(id) ? modelValue.filter(x => x !== id) : [...modelValue, id]
     )"
-    min-h="40px"
-    py-1
   >
     <q-item-section
       avatar
@@ -18,7 +16,7 @@
     >
       <a-avatar
         :avatar
-        size="27px"
+        size="30px"
       />
     </q-item-section>
     <q-item-section>
@@ -26,7 +24,13 @@
         {{ name }}
       </q-item-label>
       <q-item-label
-        v-if="status && modelValue.includes(id)"
+        v-if="!status"
+        caption
+      >
+        {{ description }}
+      </q-item-label>
+      <q-item-label
+        v-else-if="modelValue.includes(id)"
         caption
       >
         {{ statusText(status[id]) }}

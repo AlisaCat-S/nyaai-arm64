@@ -162,13 +162,15 @@ watch(() => props.channel.id, () => {
   })
 }, { immediate: true })
 
-function send() {
+async function send() {
   const { id } = props.channel.message!
   flush(id)
-  mutate(mutators.sendChannelMessage({
+  await mutate(mutators.sendChannelMessage({
     id,
     draftMessageId: genId(),
     sentAt: Date.now(),
-  }))
+  })).client
+  await nextTick()
+  scroll('bottom')
 }
 </script>

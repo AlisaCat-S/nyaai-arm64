@@ -156,7 +156,7 @@ export const assistant = pgTable('assistant', {
   id: id().primaryKey(),
   rootId: id().notNull(),
   prompt: text(),
-  promptTemplate: text().notNull(),
+  promptTemplate: text(),
   promptRole: text().notNull().$type<PromptRole>(),
   contextNum: integer(),
   streamSettings: jsonb().notNull().$type<Record<string, any>>(),

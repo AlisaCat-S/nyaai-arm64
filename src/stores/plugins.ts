@@ -12,6 +12,7 @@ export interface McpPluginManifest {
   id: string
   type: 'mcp'
   name: string
+  description?: string
   avatar: Avatar
   transport: McpTransport
   requestTimeout?: number | null
@@ -22,10 +23,12 @@ export interface BuiltinPluginManifest {
   id: string
   type: 'builtin'
   name: string
+  description?: string
   avatar: Avatar
   tools: PluginTool[]
   resources: PluginResource[]
   prompts: PluginPrompt[]
+  prompt?: string
 }
 export type PluginManifest = McpPluginManifest | BuiltinPluginManifest
 

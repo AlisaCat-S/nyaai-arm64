@@ -30,7 +30,7 @@
           </q-item-section>
           <q-item-section pl-2>
             <a-input
-              :model-value="assistant.promptTemplate"
+              :model-value="assistant.promptTemplate || DefaultPromptTemplate"
               @update:model-value="update({ promptTemplate: $event })"
               filled
               autogrow
@@ -109,6 +109,7 @@ import { mutate } from 'src/utils/zero-session'
 import { useWorkspaceStore } from 'src/stores/workspace'
 import { entityName } from 'src/utils/defaults'
 import { t } from 'src/utils/i18n'
+import { DefaultPromptTemplate } from 'src/utils/templates'
 
 const props = defineProps<{
   assistant: FullAssistant

@@ -4,17 +4,19 @@
     view-styles
   >
     <div p-2>
-      <form
-        @submit.prevent="searchSubmit"
-        grow
-      >
-        <q-input
-          v-model="q"
-          outlined
-          enterkeyhint="search"
-          dense
-        />
-      </form>
+      <common-toolbar>
+        <form
+          @submit.prevent="searchSubmit"
+          grow
+        >
+          <q-input
+            v-model="q"
+            outlined
+            enterkeyhint="search"
+            dense
+          />
+        </form>
+      </common-toolbar>
       <div flex>
         <q-pagination
           v-if="search.records.length > 1"
@@ -91,6 +93,7 @@ import { mutators } from 'app/src-shared/mutators'
 import { getFavicon } from 'src/utils/functions'
 import { useRouter } from 'vue-router'
 import ModelSelect from 'src/components/ModelSelect.vue'
+import CommonToolbar from 'src/components/CommonToolbar.vue'
 
 const props = defineProps<{
   search: SearchWithRecords

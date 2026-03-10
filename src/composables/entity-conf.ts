@@ -4,7 +4,7 @@ import { mutate } from 'src/utils/zero-session'
 import { expandAncestors } from 'src/utils/functions'
 import { usePerfsState } from './perfs-state'
 import { mutators } from 'app/src-shared/mutators'
-import { ChatTitlePrompt, OverviewPrompt2, TranslationPrompt, PageAssistantPrompt } from 'src/utils/templates'
+import { ChatTitlePrompt, SearchOverviewPrompt, TranslationPrompt, PageAssistantPrompt } from 'src/utils/templates'
 import { translationLanguageOptions } from 'src/utils/values'
 import type { LayoutPosition } from 'src/utils/types'
 import { useEntityStore } from 'src/stores/entity'
@@ -16,7 +16,7 @@ import { useQuery } from './zero/query'
 const DefaultConf = Object.freeze({
   chatAssistantId: null as string | null,
   chatModelId: null as string | null,
-  searchAssistantPrompt: OverviewPrompt2 as string,
+  searchAssistantPrompt: SearchOverviewPrompt as string,
   pageAssistantPrompt: PageAssistantPrompt as string,
   chatTitlePrompt: ChatTitlePrompt as string,
   chatTitleModelId: null as string | null,
