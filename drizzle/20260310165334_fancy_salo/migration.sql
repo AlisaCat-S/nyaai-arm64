@@ -1,0 +1,1 @@
+ALTER TABLE "assistant" ALTER COLUMN "promptTemplate" DROP NOT NULL;
