@@ -3,10 +3,7 @@
     flex="~ col"
     view-styles
   >
-    <common-toolbar
-      bg-sur
-      px-0
-    >
+    <common-toolbar>
       <assistant-model-select
         v-if="$route.params.type === 'chat' && workspaceStore.id"
         :assistant-id="conf.chatAssistantId"
@@ -99,6 +96,7 @@
         :message="getMessageAt(-1)!"
         :parent-id="chat.id"
         :input-types="modelInputTypes(model).user"
+        :plugins
         @send="send"
         v-slot="{ empty }"
       >

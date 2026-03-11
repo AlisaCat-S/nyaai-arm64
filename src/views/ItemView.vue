@@ -151,6 +151,15 @@
           {{ idDateString(item.id) }}
         </common-item>
       </q-list>
+      <div
+        v-else-if="tab === 'empty'"
+        flex
+        items-center
+        justify-center
+        h-full
+      >
+        <span mx-4>{{ t('No content currently. This may be because the upload has not been completed or the upload was interrupted.') }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -188,7 +197,7 @@ const previewMode = computed(() => {
   if (item.blobId && item.mimeType?.startsWith('image/')) {
     return 'image'
   }
-  if (item.text && ['html', 'markdown'].includes(item.language ?? '')) {
+  if (item.text && ['html', 'markdown', 'text'].includes(item.language ?? 'text')) {
     return 'markdown'
   }
   if (item.text && item.language === 'svg') {
@@ -196,7 +205,12 @@ const previewMode = computed(() => {
   }
   return null
 })
-const tab = ref(previewMode.value ? 'preview' : props.item.blobId ? 'file' : 'text')
+const tab = ref((() => {
+  if (previewMode.value) return 'preview'
+  if (props.item.blobId) return 'file'
+  if (props.item.text) return 'text'
+  return 'empty'
+})())
 const imageUrl = useBlobURL(computed(() => previewMode.value === 'image' ? props.item.id : null))
 
 const { entity } = useThisEntityConf()

@@ -318,6 +318,15 @@ const entityAccessTable = {
         "userId"
       >,
     },
+    rootId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "entityAccess",
+        "rootId"
+      >,
+    },
     entityId: {
       type: "string",
       optional: false,

@@ -78,6 +78,14 @@
           un-hidden
         >
       </q-btn>
+      <plugin-context-btn
+        v-if="plugins"
+        :plugins
+        @add-item="addItem"
+        @add-files="addFiles"
+        flat
+        round
+      />
       <slot :empty />
     </div>
     <a-input
@@ -115,11 +123,14 @@ import ParseFilesDialog from './ParseFilesDialog.vue'
 import { useQuasar } from 'quasar'
 import type { ParseResult } from 'src/utils/file-parse'
 import { parseText } from 'src/utils/file-parse'
+import type { Plugins } from 'src/composables/plugins'
+import PluginContextBtn from './PluginContextBtn.vue'
 
 const props = defineProps<{
   message: FullMessage
   parentId: string
   inputTypes: string[]
+  plugins?: Plugins
 }>()
 
 const emit = defineEmits<{

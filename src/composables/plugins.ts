@@ -131,6 +131,13 @@ function clientDown(manifest: McpPluginManifest) {
   }
 }
 
+export type Plugins = Record<string, {
+  tools: PluginTool[]
+  resources: PluginResource[]
+  prompts: PluginPrompt[]
+  status: PluginStatus
+}>
+
 export function usePlugins(ids: Ref<string[]>) {
   const pluginsStore = usePluginsStore()
   const manifests = computed(() => pluginsStore.plugins.filter(x => ids.value.includes(x.id)))
@@ -138,7 +145,7 @@ export function usePlugins(ids: Ref<string[]>) {
     from.filter(x => x.type === 'mcp').forEach(clientDown)
     to.filter(x => x.type === 'mcp').forEach(clientUp)
   }, { immediate: true })
-  const plugins = computed(() => Object.fromEntries(manifests.value.map(x => [x.id, {
+  const plugins = computed<Plugins>(() => Object.fromEntries(manifests.value.map(x => [x.id, {
     tools: x.type === 'builtin' ? x.tools : pool[x.id].tools.value,
     resources: x.type === 'builtin' ? x.resources : pool[x.id].resources.value,
     prompts: x.type === 'builtin' ? x.prompts : pool[x.id].prompts.value,

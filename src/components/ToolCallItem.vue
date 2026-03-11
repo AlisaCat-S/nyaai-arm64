@@ -50,7 +50,7 @@ import { computed } from 'vue'
 import AAvatar from './AAvatar.vue'
 import { engine } from 'src/utils/template-engine'
 import { MdPreview } from 'md-editor-v3'
-import { Row } from '@rocicorp/zero'
+import type { Row } from '@rocicorp/zero'
 import { t } from 'src/utils/i18n'
 import { useMdProps } from 'src/composables/md-props'
 

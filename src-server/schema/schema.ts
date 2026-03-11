@@ -366,9 +366,14 @@ export const order = pgTable('order', {
 
 export const entityAccess = pgTable('entityAccess', {
   userId: text().notNull().references(() => user.id, { onDelete: 'cascade' }),
-  entityId: id().notNull().references(() => entity.id, { onDelete: 'cascade' }),
+  rootId: id().notNull(),
+  entityId: id().notNull(),
   time: timestamp().notNull(),
 }, t => [
+  foreignKey({
+    columns: [t.rootId, t.entityId],
+    foreignColumns: [entity.rootId, entity.id],
+  }).onDelete('cascade').onUpdate('cascade'),
   primaryKey({ columns: [t.entityId, t.userId] }),
   index().on(t.userId, t.time.desc()),
 ])

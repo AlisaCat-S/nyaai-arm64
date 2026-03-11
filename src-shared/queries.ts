@@ -439,7 +439,7 @@ export const queries = defineQueries({
       assertAuthorized(userId)
       return zql.entityAccess
         .where('userId', userId)
-        .whereExists('entity', q => q.where('rootId', workspaceId))
+        .where('rootId', workspaceId)
         .related('entity')
         .orderBy('time', 'desc')
     },

@@ -3,7 +3,7 @@ import { mutate, user } from '../utils/zero-session'
 import { useQuery } from 'src/composables/zero/query'
 import { queries } from 'app/src-shared/queries'
 import { mutators } from 'app/src-shared/mutators'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 
 export const useUserDataStore = defineStore('user-data', () => {
   const { data, status } = useQuery(() => user.id ? queries.userData() : null)

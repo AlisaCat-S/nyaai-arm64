@@ -4,7 +4,10 @@
     view-styles
   >
     <div p-2>
-      <common-toolbar>
+      <common-toolbar
+        bg-sur
+        px-0
+      >
         <form
           @submit.prevent="searchSubmit"
           grow

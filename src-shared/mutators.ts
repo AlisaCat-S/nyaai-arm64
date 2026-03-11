@@ -1337,6 +1337,7 @@ const createWorkspace = defineMutator(
     tx.mutate.entityAccess.insert({
       entityId: chatAssistantId,
       userId: ctx.userId,
+      rootId: id,
       time: Date.now(),
     })
   },
@@ -1584,11 +1585,13 @@ const accessEntity = defineMutator(
     entityId: z.string(),
     time: z.number(),
   }),
-  async ({ tx, ctx: { userId }, args: { entityId, time } }) => {
-    assertAuthorized(userId)
+  async ({ tx, ctx, args: { entityId, time } }) => {
+    assertAuthorized(ctx.userId)
+    const { rootId } = await requireWritable.entity(tx, ctx, entityId)
     await tx.mutate.entityAccess.upsert({
-      userId,
+      userId: ctx.userId,
       entityId,
+      rootId,
       time: ensureTimeValid(time),
     })
   },

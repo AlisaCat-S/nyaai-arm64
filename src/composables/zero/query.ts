@@ -15,8 +15,7 @@ import type { QueryError, QueryStatus, VueView } from './view'
 import { addContextToQuery, asQueryInternals } from '@rocicorp/zero/bindings'
 import {
   computed,
-  getCurrentInstance,
-  onUnmounted,
+  onScopeDispose,
   shallowRef,
   toRaw,
   toValue,
@@ -114,9 +113,9 @@ export function useQuery<
     toValue(view)?.updateTTL(ttl)
   })
 
-  if (getCurrentInstance()) {
-    onUnmounted(() => view.value?.destroy())
-  }
+  onScopeDispose(() => {
+    view.value?.destroy()
+  })
 
   watchEffect(() => {
     !view.value?.data && view.value?.status === 'complete' && toValue(options)?.onNotFound?.()

@@ -578,5 +578,9 @@
   "Tool Call": "工具调用",
   "Tool Input": "工具输入",
   "Tool Result": "工具结果",
-  "Error Message": "错误信息"
+  "Error Message": "错误信息",
+  "Plugin Context": "插件上下文",
+  "Resource": "资源",
+  "Prompt Arguments": "提示词参数",
+  "No content currently. This may be because the upload has not been completed or the upload was interrupted.": "目前没有内容。 这可能是因为上传尚未完成或上传被中断。"
 }
