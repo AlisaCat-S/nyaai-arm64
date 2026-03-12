@@ -52,7 +52,10 @@
         />
       </template>
     </div>
-    <div pos-relative>
+    <div
+      pos-relative
+      v-if="perfsStore.perfs.chatScrollBtns"
+    >
       <div
         pos-absolute
         top--1
@@ -214,6 +217,7 @@ import { flush } from 'src/composables/state-proxy'
 import ProviderOptionsBtn from 'src/components/ProviderOptionsBtn.vue'
 import { DefaultPromptTemplate } from 'src/utils/templates'
 import { useQuote } from 'src/composables/quote'
+import { useListenKey } from 'src/composables/listen-key'
 
 const props = defineProps<{
   chat: FullChat
@@ -334,7 +338,7 @@ async function send() {
     scroll('bottom')
   })
   const { promise } = stream(params)
-  if (chain.value.length === 4) {
+  if (chain.value.length === 4 && perfsStore.perfs.autoGenChatTitle) {
     promise.then(generateTitle)
   }
 }
@@ -476,12 +480,32 @@ function switchModel(id: string | null) {
 
 const workspaceStore = useWorkspaceStore()
 
-const usage = computed(() => messageMap.value[chain.value.at(-2)!]?.usage)
+const usage = computed(() => getMessageAt(-2)?.usage)
 
-const { scroll } = useChatScroll(scrollContainer)
+const { getEls, itemInView, scroll } = useChatScroll(scrollContainer)
+
+function regenerateCurr() {
+  const { container, items } = getEls()
+  const index = items.findIndex(
+    (item, i) => itemInView(item, container) && getMessageAt(i + 1)?.type === 'chat:assistant',
+  )
+  if (index === -1) return
+  regenerate(chain.value[index])
+}
+function editCurr() {
+  const { container, items } = getEls()
+  const index = items.findIndex(
+    (item, i) => itemInView(item, container) && getMessageAt(i + 1)?.type === 'chat:user',
+  )
+  if (index === -1) return
+  edit(chain.value[index])
+}
 
 const providerOptions = ref({})
 const providerTools = ref({})
 
 const quote = useQuote(computed(() => getMessageAt(-1)!))
+
+useListenKey(computed(() => perfsStore.perfs.regenerateCurrKey), regenerateCurr)
+useListenKey(computed(() => perfsStore.perfs.editCurrKey), editCurr)
 </script>

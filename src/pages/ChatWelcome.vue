@@ -23,10 +23,15 @@
           flex
           gap-2
         >
-          <send-message-key-select
+          <send-key-select
             :label="t('Send Message Shortcut')"
             filled
             class="flex-1"
+            :model-value="perfsStore.perfs.sendMessageKey"
+            @update:model-value="perfsStore.update({
+              updates: { sendMessageKey: $event },
+              scope: 'user',
+            })"
           />
           <model-select
             :workspace-id="workspaceStore.id"
@@ -66,15 +71,18 @@
 <script setup lang="ts">
 import CommonItem from 'src/components/CommonItem.vue'
 import ModelSelect from 'src/components/ModelSelect.vue'
-import SendMessageKeySelect from 'src/components/SendMessageKeySelect.vue'
+import SendKeySelect from 'src/components/SendKeySelect.vue'
 import { useRootEntityConf } from 'src/composables/entity-conf'
 import { useRunShortcut } from 'src/composables/run-shortcut'
 import { t } from 'src/utils/i18n'
 import { useActiveEntitiesStore } from 'src/stores/active-entities'
 import WelcomeWrapper from './WelcomeWrapper.vue'
 import { useWorkspaceStore } from 'src/stores/workspace'
+import { usePerfsStore } from 'src/stores/perfs'
 
 const { conf, update } = useRootEntityConf()
+
+const perfsStore = usePerfsStore()
 
 const runShortcut = useRunShortcut()
 const activeEntitiesStore = useActiveEntitiesStore()

@@ -29,7 +29,10 @@
         p-4
       />
     </div>
-    <div pos-relative>
+    <div
+      pos-relative
+      v-if="perfsStore.perfs.channelScrollBtns"
+    >
       <div
         pos-absolute
         top--1
@@ -112,6 +115,7 @@ import { t } from 'src/utils/i18n'
 import { useChatScroll } from 'src/composables/chat-scroll'
 import MessageItem from 'src/components/MessageItem.vue'
 import { useQuote } from 'src/composables/quote'
+import { usePerfsStore } from 'src/stores/perfs'
 
 const props = defineProps<{
   channel: FullChannel
@@ -177,4 +181,6 @@ async function send() {
 }
 
 const quote = useQuote(computed(() => props.channel.message))
+
+const perfsStore = usePerfsStore()
 </script>

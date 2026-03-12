@@ -1,4 +1,7 @@
 import type { Ref } from 'vue'
+import { useListenKey } from './listen-key'
+import { usePerfsStore } from 'src/stores/perfs'
+import { computed } from 'vue'
 
 export function useChatScroll(scrollContainer: Ref<HTMLElement | null>) {
   function getEls() {
@@ -8,7 +11,7 @@ export function useChatScroll(scrollContainer: Ref<HTMLElement | null>) {
   }
   function itemInView(item: HTMLElement, container: HTMLElement) {
     return item.offsetTop <= container.scrollTop + container.clientHeight &&
-  item.offsetTop + item.clientHeight > container.scrollTop
+      item.offsetTop + item.clientHeight > container.scrollTop
   }
   function scroll(action: 'up' | 'down' | 'top' | 'bottom', behavior: 'smooth' | 'auto' = 'smooth') {
     const { container, items } = getEls()
@@ -44,7 +47,15 @@ export function useChatScroll(scrollContainer: Ref<HTMLElement | null>) {
     container.scrollTo({ top, behavior })
   }
 
+  const perfsStore = usePerfsStore()
+  useListenKey(computed(() => perfsStore.perfs.scrollUpKey), () => scroll('up'))
+  useListenKey(computed(() => perfsStore.perfs.scrollDownKey), () => scroll('down'))
+  useListenKey(computed(() => perfsStore.perfs.scrollTopKey), () => scroll('top'))
+  useListenKey(computed(() => perfsStore.perfs.scrollBottomKey), () => scroll('bottom'))
+
   return {
+    getEls,
+    itemInView,
     scroll,
   }
 }

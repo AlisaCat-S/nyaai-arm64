@@ -206,6 +206,7 @@
               shadow-default
               class="float-btn-group"
               :class="{ dense: $q.screen.lt.md }"
+              @click="hide"
             >
               <q-btn
                 icon="sym_o_format_quote"
@@ -275,14 +276,16 @@
         >
           {{ message.error }}
         </div>
-        <div
-          text-warn
-          my-2
-          v-for="(warning, index) in message.warnings"
-          :key="index"
-        >
-          {{ warning }}
-        </div>
+        <template v-if="perfsStore.perfs.showMessageWarnings">
+          <div
+            text-warn
+            my-2
+            v-for="(warning, index) in message.warnings"
+            :key="index"
+          >
+            {{ warning }}
+          </div>
+        </template>
         <div
           text="out xs"
           pos-absolute
@@ -532,7 +535,7 @@ function getDataLine(node: Node | null, ttl = 5) {
 }
 function onSelect(mode: 'mouse' | 'touch') {
   const { perfs } = perfsStore
-  if (!perfs.messageSelectionBtn) return
+  if (!perfs.messageSelectionMenu) return
   const selection = document.getSelection()
   if (!selection) return
   const text = selection.toString()
@@ -556,13 +559,13 @@ function onSelect(mode: 'mouse' | 'touch') {
     Math.max(baseRects.width - 375, 0),
   ) + 'px'
 }
-if (perfsStore.perfs.messageSelectionBtn) {
-  const listener = () => {
-    selected.text = null
-    selected.markdown = null
-  }
-  document.addEventListener('selectionchange', listener)
-  onUnmounted(() => document.removeEventListener('selectionchange', listener))
+function hide() {
+  selected.text = null
+  selected.markdown = null
+}
+if (perfsStore.perfs.messageSelectionMenu) {
+  document.addEventListener('selectionchange', hide)
+  onUnmounted(() => document.removeEventListener('selectionchange', hide))
 }
 
 const router = useRouter()

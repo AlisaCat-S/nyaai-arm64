@@ -25,6 +25,7 @@
     <q-page>
       <settings-list
         :state
+        :scope
         @update="update"
         @reset="reset"
       />

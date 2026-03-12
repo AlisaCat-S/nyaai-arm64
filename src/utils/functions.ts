@@ -204,6 +204,7 @@ export function getExt(filename: string) {
 }
 
 export function shortcutKeyMatch(shortcut: ShortcutKey, ev: KeyboardEvent) {
+  if (!shortcut) return false
   const { key, withCtrl = false, withShift = false, withAlt = false, withMeta = false } = shortcut
   return ev.code === key &&
     ev.ctrlKey === withCtrl &&

@@ -125,6 +125,7 @@ import type { ParseResult } from 'src/utils/file-parse'
 import { parseText } from 'src/utils/file-parse'
 import type { Plugins } from 'src/composables/plugins'
 import PluginContextBtn from './PluginContextBtn.vue'
+import { useListenKey } from 'src/composables/listen-key'
 
 const props = defineProps<{
   message: FullMessage
@@ -232,9 +233,10 @@ const perfsStore = usePerfsStore()
 
 const messageInput = useTemplateRef('messageInput')
 function focusInput() {
-  perfsStore.perfs.autoFocusChatInput && messageInput.value?.focus()
+  messageInput.value?.focus()
 }
 focusInput()
+useListenKey(computed(() => perfsStore.perfs.focusInputKey), focusInput)
 
 const empty = computed(() => !editableMessage.value.text && !editableMessage.value.entities.length)
 function onEnter(ev: KeyboardEvent) {

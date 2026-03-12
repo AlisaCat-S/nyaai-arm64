@@ -15,6 +15,7 @@ export function useQuote(inputingMessage: Ref<FullMessage | undefined>) {
         name: `"${textBeginning(text, 16)}"`,
         messageId: message.id,
         parentId: message.entityId,
+        language: 'markdown',
         text,
       }))
     } else {

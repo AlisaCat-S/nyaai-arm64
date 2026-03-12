@@ -4,8 +4,7 @@ import type { Ref } from 'vue'
 import { onMounted, onUnmounted } from 'vue'
 
 export function useListenKey(shortcutKey: Ref<ShortcutKey>, callback: () => void, prevent = true) {
-  const listener = event => {
-    if (!shortcutKey.value) return
+  const listener = (event: KeyboardEvent) => {
     if (shortcutKeyMatch(shortcutKey.value, event)) {
       callback()
       prevent && event.preventDefault()

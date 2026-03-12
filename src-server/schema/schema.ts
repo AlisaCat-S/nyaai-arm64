@@ -182,7 +182,7 @@ export const pagePatch = pgTable('pagePatch', {
   rootId: id().notNull(),
   entityId: id().notNull(),
   patch: text().notNull(),
-  userId: text().notNull().references(() => user.id, { onDelete: 'set null' }),
+  userId: text().references(() => user.id, { onDelete: 'set null' }),
 }, t => [
   foreignKey({
     columns: [t.rootId, t.entityId],

@@ -47,10 +47,10 @@ export type InferSchema<S> =
 
 export type LayoutPosition = 'full' | 'left' | 'right'
 
-export interface ShortcutKey {
+export type ShortcutKey = {
   key: string
   withCtrl?: boolean
   withShift?: boolean
   withAlt?: boolean
   withMeta?: boolean
-}
+} | null

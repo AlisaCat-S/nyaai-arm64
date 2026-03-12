@@ -4,7 +4,6 @@ import { computed, watchEffect } from 'vue'
 import { localReactive } from 'src/composables/local-reactive'
 import type { ShortcutKey, Writable } from 'src/utils/types'
 import { Dark } from 'quasar'
-import type { Avatar } from 'app/src-shared/utils/validators'
 import { mutators } from 'app/src-shared/mutators'
 import { useUserDataStore } from './user-data'
 import { useWorkspaceStore } from './workspace'
@@ -16,24 +15,28 @@ const StorageKey = 'perfs'
 export const DefaultPerfs = {
   darkMode: 'auto' as boolean | 'auto',
   themeHue: DEFAULT_HUE,
-  userAvatar: {
-    type: 'text',
-    text: 'U',
-    hue: DEFAULT_HUE,
-  } as Avatar,
   mdPreviewTheme: 'vuepress',
   mdCodeTheme: 'atom',
   mdNoMermaid: false,
   mdAutoFoldThreshold: null as number | null,
-  showWarnings: false,
+  showMessageWarnings: false,
   expandReasoningContent: false,
-  codePasteOptimize: true,
+  codePasteOptimize: false,
   sendMessageKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
   translateKey: { key: 'Enter', withCtrl: true } as ShortcutKey,
   navigationPanelShortcut: { key: 'KeyP', withCtrl: true } as ShortcutKey,
-  autoFocusChatInput: true,
+  regenerateCurrKey: { key: 'KeyR', withCtrl: true } as ShortcutKey,
+  editCurrKey: { key: 'KeyE', withCtrl: true } as ShortcutKey,
+  scrollUpKey: { key: 'ArrowUp', withCtrl: true } as ShortcutKey,
+  scrollDownKey: { key: 'ArrowDown', withCtrl: true } as ShortcutKey,
+  scrollTopKey: { key: 'ArrowUp', withShift: true } as ShortcutKey,
+  scrollBottomKey: { key: 'ArrowDown', withShift: true } as ShortcutKey,
+  focusInputKey: null as ShortcutKey,
   streamingLockBottom: false,
-  messageSelectionBtn: true,
+  messageSelectionMenu: true,
+  autoGenChatTitle: true,
+  chatScrollBtns: true,
+  channelScrollBtns: true,
 }
 
 export type Perfs = typeof DefaultPerfs
