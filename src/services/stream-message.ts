@@ -52,7 +52,7 @@ export async function streamMessage(entityId: string, id: string, ...params: Par
       mutate(mutators.updateAssistantMessage({ id, error: String(part.error) }))
       if ((part.error as any).responseBody.includes('Quota exceeded')) {
         Notify.create({
-          message: t('AI Quota Exceeded. Please upgrade your plan or switch to free models.'),
+          message: t('AI quota exceeded. Please upgrade your plan or switch to free/custom models.'),
           color: 'err-c',
           textColor: 'on-err-c',
           actions: [{

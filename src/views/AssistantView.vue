@@ -17,7 +17,7 @@
           <q-item-section pl-2>
             <a-input
               :model-value="assistant.prompt"
-              @update:model-value="update({ prompt: $event })"
+              @change="update({ prompt: $event })"
               filled
               autogrow
               clearable
@@ -31,7 +31,7 @@
           <q-item-section pl-2>
             <a-input
               :model-value="assistant.promptTemplate || DefaultPromptTemplate"
-              @update:model-value="update({ promptTemplate: $event })"
+              @change="update({ promptTemplate: $event })"
               filled
               autogrow
               clearable

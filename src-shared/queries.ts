@@ -228,7 +228,7 @@ export const queries = defineQueries({
     z.string(),
     ({ ctx, args: workspaceId }) => {
       return withReadable(
-        zql.model.where('rootId', workspaceId),
+        zql.model.where('rootId', workspaceId).orderBy('sortPriority', 'desc'),
         ctx.userId,
       )
     },
@@ -404,7 +404,7 @@ export const queries = defineQueries({
     },
   ),
   plans: defineQuery(z.undefined(), () => zql.plan.related('prices', q => q.where('enabled', true))),
-  publicModels: defineQuery(z.undefined(), () => zql.model.where('entityId', PUBLIC_ROOT_ID)),
+  publicModels: defineQuery(z.undefined(), () => zql.model.where('entityId', PUBLIC_ROOT_ID).orderBy('sortPriority', 'desc')),
   adminWorkspaces: defineQuery(
     z.object({
       ownerId: z.string().nullish(),

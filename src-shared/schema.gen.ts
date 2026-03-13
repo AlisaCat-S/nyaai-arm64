@@ -891,6 +891,15 @@ const modelTable = {
         "providerOptions"
       >,
     },
+    sortPriority: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "model",
+        "sortPriority"
+      >,
+    },
   },
   primaryKey: ["id"],
 } as const;
@@ -1024,6 +1033,15 @@ const pagePatchTable = {
         typeof zeroSchema,
         "pagePatch",
         "patch"
+      >,
+    },
+    userId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "pagePatch",
+        "userId"
       >,
     },
   },

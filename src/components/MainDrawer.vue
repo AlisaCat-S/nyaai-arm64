@@ -59,7 +59,6 @@
       v-if="dirId"
       v-model="dirId"
       mode="left"
-      px-2
     />
     <q-space />
     <q-list

@@ -22,6 +22,15 @@
       class="w-180px"
     />
   </common-item>
+  <common-item :label="t('Sort Priority')">
+    <q-input
+      type="number"
+      v-model.number="model.sortPriority"
+      clearable
+      dense
+      class="w-180px"
+    />
+  </common-item>
   <common-item :label="t('Input Price')">
     <q-input
       type="number"

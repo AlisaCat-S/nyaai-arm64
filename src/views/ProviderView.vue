@@ -108,6 +108,7 @@ function addModel() {
       id: genId(),
       name: '',
       settings: {},
+      sortPriority: 0,
     }],
   }))
 }
@@ -131,6 +132,7 @@ function getModelList() {
           id: genId(),
           name,
           settings: {},
+          sortPriority: 0,
         })),
       }))
     })

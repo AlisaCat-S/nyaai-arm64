@@ -49,6 +49,7 @@ defineEmits([
 const model = ref<AdminModel>({
   name: '',
   settings: {},
+  sortPriority: 0,
 })
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()

@@ -50,6 +50,14 @@
               dense
             />
           </common-item>
+          <common-item :label="t('Sort Priority')">
+            <a-input
+              type="number"
+              :model-value="model.sortPriority"
+              @change="$event && update({ sortPriority: parseInt($event) })"
+              dense
+            />
+          </common-item>
           <q-expansion-item
             :label="t('Multimodal Capabilities')"
             :caption="t('Files matching the MIME types will be directly input to the model.')"

@@ -15,7 +15,10 @@
     >
       <q-icon :name="icon" />
     </q-item-section>
-    <q-item-section>
+    <q-item-section
+      grow-0
+      min-w-fit
+    >
       <q-item-label>{{ label }}</q-item-label>
       <q-item-label
         caption
@@ -45,7 +48,11 @@
         </span>
       </q-item-label>
     </q-item-section>
-    <q-item-section side>
+    <q-item-section
+      side
+      grow-1
+      ml-a
+    >
       <slot />
     </q-item-section>
   </q-item>

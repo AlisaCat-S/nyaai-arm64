@@ -145,6 +145,7 @@ export const model = pgTable('model', {
   inputPrice: real(),
   outputPrice: real(),
   providerOptions: jsonb().$type<Record<string, any>>(),
+  sortPriority: integer().notNull(),
 }, t => [
   foreignKey({
     columns: [t.rootId, t.entityId],

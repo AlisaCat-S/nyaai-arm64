@@ -1,4 +1,4 @@
-export const SearchOverviewPrompt =
+export const SearchAssistantPrompt =
 `You are an AI assistant that generates comprehensive overviews based on user queries and search results. Your goal is to help users quickly find the information they need.
 
 ## Instructions

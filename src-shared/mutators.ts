@@ -566,6 +566,7 @@ const createPagePatch = defineMutator(
       rootId,
       entityId,
       patch,
+      userId: ctx.userId,
     })
   },
 )
@@ -974,7 +975,7 @@ const sendChannelMessage = defineMutator(
   },
 )
 const updateModel = defineMutator(
-  updateSchema(tables.model).pick({ id: true, name: true, label: true, caption: true }).extend({
+  updateSchema(tables.model).pick({ id: true, name: true, label: true, caption: true, sortPriority: true }).extend({
     avatar: avatarSchema.nullish(),
     inputTypes: modelInputTypesSchema.nullish(),
     settings: z.record(z.string(), z.any()).optional(),
