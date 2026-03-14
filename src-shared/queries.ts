@@ -433,6 +433,25 @@ export const queries = defineQueries({
         .limit(limit)
     },
   ),
+  workspaceUsages: defineQuery(
+    z.object({
+      workspaceId: z.string(),
+      limit: z.number().default(40),
+      from: z.string().nullish(),
+      to: z.string().nullish(),
+    }),
+    ({ ctx: { userId }, args: { workspaceId, limit, from, to } }) => {
+      assertAuthorized(userId)
+      let q = zql.usage
+        .where('workspaceId', workspaceId)
+        .orderBy('id', 'desc')
+        .related('user')
+        .limit(limit)
+      if (from) q = q.where('id', '>=', from)
+      if (to) q = q.where('id', '<=', to)
+      return withMember(q, userId)
+    },
+  ),
   entityAccesses: defineQuery(
     z.string(),
     ({ ctx: { userId }, args: workspaceId }) => {
@@ -466,3 +485,5 @@ export type EntityWithItem = Row['entity'] & { item?: Row['item'] }
 
 export type FullWorkspace = NonNullable<QueryResultType<typeof queries.fullWorkspace>>
 export type FullMember = FullWorkspace['members'][number]
+
+export type FullUsage = NonNullable<QueryResultType<typeof queries.workspaceUsages>>[number]

@@ -28,6 +28,10 @@
         to="/workspace/plans"
       />
       <q-route-tab
+        :label="t('Logs')"
+        to="/workspace/usage"
+      />
+      <q-route-tab
         :label="t('Orders')"
         to="/workspace/orders"
       />

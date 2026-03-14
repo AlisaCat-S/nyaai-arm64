@@ -190,7 +190,7 @@
           <md-preview
             :class="background ? 'bg-sur-c-low px-4' : 'bg-sur'"
             rd-lg
-            :model-value="message.text"
+            :model-value="mdContent"
             v-bind="mdPreviewProps"
             @on-html-changed="onHtmlChanged"
             @on-get-catalog="headList = $event"
@@ -367,6 +367,7 @@ import { usePerfsStore } from 'src/stores/perfs'
 import ToolcallItem from './ToolCallItem.vue'
 import { createSearch } from 'src/services/create-search'
 import { useRouter } from 'vue-router'
+import { wrapCode } from 'src/utils/functions'
 
 const props = defineProps<{
   message: FullMessage
@@ -422,6 +423,11 @@ function onHtmlChanged() {
 const { mdPreviewProps, mdCatalogProps } = useMdProps()
 
 const sourceCodeMode = ref(false)
+const mdContent = computed(() =>
+  sourceCodeMode.value
+    ? wrapCode(props.message.text, 'markdown', 5)
+    : props.message.text,
+)
 
 const headList = ref<HeadList[]>([])
 

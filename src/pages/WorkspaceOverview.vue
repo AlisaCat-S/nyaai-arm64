@@ -66,6 +66,7 @@
         <common-item
           :label="t('AI quota usage')"
           :caption="t('Next reset time: {0}', new Date(workspace.resetAt).toLocaleString())"
+          to="/workspace/usage"
         >
           <span :class="{ 'text-err': workspace.quotaUsed >= workspace.plan!.quotaLimit }">
             ${{ workspace.quotaUsed.toFixed(4) }} / ${{ workspace.plan!.quotaLimit }}

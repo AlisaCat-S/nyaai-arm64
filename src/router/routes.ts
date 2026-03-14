@@ -23,6 +23,8 @@ import ChannelWelcome from 'src/pages/ChannelWelcome.vue'
 import IndexWelcome from 'src/pages/IndexWelcome.vue'
 import ItemWelcome from 'src/pages/ItemWelcome.vue'
 import ItemIndex from 'src/pages/ItemIndex.vue'
+import ModelPricing from 'src/pages/ModelPricing.vue'
+import WorkspaceUsage from 'src/pages/WorkspaceUsage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -65,10 +67,18 @@ const routes: RouteRecordRaw[] = [
             component: WorkspacePlans,
           },
           {
+            path: 'usage',
+            component: WorkspaceUsage,
+          },
+          {
             path: 'orders',
             component: WorkspaceOrders,
           },
         ],
+      },
+      {
+        path: '/models',
+        component: ModelPricing,
       },
       {
         path: '/published',

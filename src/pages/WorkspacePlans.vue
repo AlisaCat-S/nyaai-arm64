@@ -139,8 +139,23 @@
               pl-4
               lh-2em
             >
-              <li>{{ t('All features') }}</li>
-              <li>{{ t('${0} AI quota per month', plan.quotaLimit) }}</li>
+              <li decoration="underline out offset-2">
+                {{ t('All features') }}
+                <q-tooltip>
+                  {{ t('All plans includes all the features!') }}<br>
+                  {{ t('The higher-tier plans simply offer significantly higher usage limits.') }}
+                </q-tooltip>
+              </li>
+              <li>
+                <router-link
+                  to="/models"
+                  text-on-sur
+                  decoration="underline out offset-2"
+                >
+                  {{ t('${0} AI quota', plan.quotaLimit) }}
+                </router-link>
+                {{ t('per month') }}
+              </li>
               <li>{{ t('{0} file storage space', formatBytes(plan.storageLimit)) }}</li>
               <li>{{ t('{0} max file size', formatBytes(plan.fileSizeLimit)) }}</li>
               <li>{{ t('Up to {0} members', plan.maxMembers) }}</li>
