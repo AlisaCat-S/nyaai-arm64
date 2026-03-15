@@ -4,7 +4,13 @@
     @hide="onDialogHide"
     no-refocus
   >
-    <q-card style="width: min(90vw, 400px)">
+    <q-card style="width: min(90vw, 500px)">
+      <a-tip
+        tip-key="mcp-cors"
+        long
+      >
+        {{ t('MCP servers are connected directly from the browser, so they require the server to allow cross-origin requests. We plan to release a desktop version to support all MCP servers, but currently, connecting to servers that do not allow cross-origin requests requires using a proxy method and configuring CORS.') }}
+      </a-tip>
       <q-card-section>
         <div class="text-h6">
           {{ t('Add MCP Server') }}
@@ -54,6 +60,7 @@ import { useDialogPluginComponent } from 'quasar'
 import { t } from 'src/utils/i18n'
 import CommonItem from 'src/components/CommonItem.vue'
 import { reactive } from 'vue'
+import ATip from './ATip.vue'
 
 defineEmits([
   ...useDialogPluginComponent.emits,

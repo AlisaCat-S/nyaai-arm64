@@ -423,6 +423,15 @@ const globalSettingsTable = {
         "maxWorkspacesPerUser"
       >,
     },
+    searchEngines: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "globalSettings",
+        "searchEngines"
+      >,
+    },
     oauthProviders: {
       type: "json",
       optional: false,

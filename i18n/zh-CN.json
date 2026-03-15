@@ -651,5 +651,9 @@
   "Directory config": "目录配置",
   "Upload failed: {0}": "上传失败：{0}",
   "Some settings apply at the directory level and are not displayed here. Right-click the directory in the right sidebar and click \"Properties\" to modify the configuration of that directory.": "某些设置作用于目录范围，并不在此处显示。 在右侧边栏目录中右键，点击“属性”即可修改该目录的配置。",
-  "Built-in": "内置"
+  "Built-in": "内置",
+  "Import": "导入",
+  "Tip": "提示",
+  "Dismiss": "不再提示",
+  "MCP servers are connected directly from the browser, so they require the server to allow cross-origin requests. We plan to release a desktop version to support all MCP servers, but currently, connecting to servers that do not allow cross-origin requests requires using a proxy method and configuring CORS.": "MCP 服务器是直接从浏览器连接的，因此需要服务器允许跨域。我们计划推出桌面版以支持所有的 MCP 服务器，但目前要连接不允许跨域的服务器，需要使用中转的方式并配置跨域。"
 }

@@ -389,5 +389,6 @@ export const globalSettings = pgTable('globalSettings', {
   freeModelReqLimit: integer().notNull(),
   freeModelLimitWindow: integer().notNull(),
   maxWorkspacesPerUser: integer().notNull(),
+  searchEngines: text().notNull(),
   oauthProviders: jsonb().notNull().$type<string[]>(),
 })

@@ -10,6 +10,7 @@ export async function seed() {
     freeModelReqLimit: 60,
     freeModelLimitWindow: 3600 * 1000,
     maxWorkspacesPerUser: 10,
+    searchEngines: 'brave',
     oauthProviders: [],
   }).onConflictDoNothing()
   await db.insert(plan).values({

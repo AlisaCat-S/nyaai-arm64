@@ -651,5 +651,9 @@
   "Directory config": "目錄配置",
   "Upload failed: {0}": "上傳失敗：{0}",
   "Some settings apply at the directory level and are not displayed here. Right-click the directory in the right sidebar and click \"Properties\" to modify the configuration of that directory.": "某些設定適用於目錄級別，此處不顯示。 右鍵點選右側欄中的目錄，然後按一下「屬性」可以修改該目錄的配置。",
-  "Built-in": "內建"
+  "Built-in": "內建",
+  "Import": "進口",
+  "Tip": "提示",
+  "Dismiss": "解僱",
+  "MCP servers are connected directly from the browser, so they require the server to allow cross-origin requests. We plan to release a desktop version to support all MCP servers, but currently, connecting to servers that do not allow cross-origin requests requires using a proxy method and configuring CORS.": "MCP 伺服器直接從瀏覽器連接，因此要求伺服器允許跨網域請求。 我們計劃發布桌面版本來支援所有 MCP 伺服器，但目前連接到不允許跨網域請求的伺服器需要使用代理方法並配置 CORS。"
 }

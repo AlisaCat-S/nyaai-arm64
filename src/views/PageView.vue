@@ -7,15 +7,16 @@
       <div
         px-2
         min-w-0
+        grow
       >
         <page-title-input
           :model-value="page.entity?.name ?? ''"
           @update:model-value="updateTitle"
           @keydown.enter="editor?.chain().focus().run()"
           :readonly="readonlyStateStore.readonly"
+          w-full
         />
       </div>
-      <q-space />
       <q-btn
         icon="sym_o_chat_add_on"
         :title="t('Open AI Chat')"
@@ -34,6 +35,11 @@
       >
         <q-menu>
           <q-list>
+            <menu-item
+              icon="sym_o_upload_file"
+              :label="t('Import')"
+              @click="fileInput?.click()"
+            />
             <q-item
               clickable
               min-h-0
@@ -76,6 +82,13 @@
             </q-item>
           </q-list>
         </q-menu>
+        <input
+          ref="fileInput"
+          type="file"
+          accept=".md,.docx,.xlsx"
+          hidden
+          @change="importFile"
+        >
       </q-btn>
     </common-toolbar>
     <selection-menu :editor />
@@ -94,7 +107,7 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import type { FullPage } from 'app/src-shared/queries'
 import { base64ToUint8Array, uint8ArrayToBase64 } from 'app/src-shared/utils/functions'
-import { watch, watchEffect } from 'vue'
+import { useTemplateRef, watch, watchEffect } from 'vue'
 import * as Y from 'yjs'
 import Collaboration from '@tiptap/extension-collaboration'
 import { copyToClipboard, debounce, exportFile, Dialog } from 'quasar'
@@ -327,6 +340,24 @@ function createChat() {
     parentId: props.page.id,
   }))
   router.push({ query: { rightEntity: JSON.stringify({ id, type: 'chat' }) } })
+}
+
+const fileInput = useTemplateRef('fileInput')
+async function importFile({ target }) {
+  const file = target.files[0]
+  if (!file) return
+  let text: string
+  if (await isTextFile(file)) {
+    text = await file.text()
+  } else {
+    const res = await parseText(file)
+    if (!res?.text) return
+    text = res.text
+  }
+  editor.value?.chain().focus().insertContent(text).run()
+  if (!props.page.entity?.name) {
+    updateTitle(file.name)
+  }
 }
 </script>
 
