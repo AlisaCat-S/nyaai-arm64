@@ -125,7 +125,7 @@ const app = new Hono()
 
     let event: Stripe.Event
     try {
-      event = stripe.webhooks.constructEvent(body, sig, STRIPE_WEBHOOK_SECRET)
+      event = await stripe.webhooks.constructEventAsync(body, sig, STRIPE_WEBHOOK_SECRET)
     } catch (err) {
       return c.json({ error: `Invalid signature: ${(err as Error).message}` }, 400)
     }
