@@ -17,6 +17,18 @@ export function entityAvatar(entity: PartialEntity | null | undefined): Avatar {
 
 export function entityName(entity: PartialEntity | null | undefined) {
   if (!entity) return ''
+  if (entity.name === '$chat') return t('Chat')
+  if (entity.name === '$search') return t('Search')
+  if (entity.name === '$pages') return t('Pages')
+  if (entity.name === '$channels') return t('Channels')
+  if (entity.name === '$translations') return t('Translations')
+  if (entity.name === '$files') return t('Files')
+  if (entity.name === '$assistants') return t('Assistants')
+  if (entity.name === '$mcpPlugins') return t('MCP Plugins')
+  if (entity.name === '$providers') return t('Providers')
+  if (entity.name === '$shortcuts') return t('Shortcuts')
+  if (entity.name === '$defaultAssistant') return t('Default Assistant')
+
   if (entity.name) return entity.name
   if (entity.type === 'folder') return t('New folder')
   if (entity.type === 'channel') return t('New channel')

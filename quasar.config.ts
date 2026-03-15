@@ -184,6 +184,9 @@ export default defineConfig((ctx) => {
       // extendPWACustomSWConf (esbuildConf) {},
       extendGenerateSWOptions (cfg) {
         cfg.globPatterns = ['**/*.{js,css,html,ico,png,svg,woff2}']
+        cfg.navigateFallbackDenylist = [
+          /^\/api\//,
+        ]
       },
       // extendInjectManifestOptions (cfg) {}
     },
