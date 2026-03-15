@@ -2,6 +2,7 @@ import type { DefaultSchema, Query } from '@rocicorp/zero'
 import type { WorkspaceRole } from './utils/validators'
 import { assert } from './utils/functions'
 import { PUBLIC_ROOT_ID } from './utils/config'
+import type { Context } from './utils/types'
 
 export const workspaceContentTables = [
   'message',
@@ -56,4 +57,8 @@ export function withWritable<Q extends Query<WorkspaceContentTable, DefaultSchem
 
 export function assertAuthorized(userId: string | undefined): asserts userId {
   assert(userId, 'Unauthorized')
+}
+
+export function assertAdmin(ctx: Context) {
+  assert(ctx.isAdmin, 'Forbidden')
 }

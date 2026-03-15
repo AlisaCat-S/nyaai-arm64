@@ -18,7 +18,7 @@ useSetTheme(DEFAULT_HUE)
 
 const router = useRouter()
 const $q = useQuasar()
-watch(session, async () => {
+watch(() => session.value.data?.user.id, async () => {
   const { data, isPending } = session.value
   if (isPending) return
   if (!data) {

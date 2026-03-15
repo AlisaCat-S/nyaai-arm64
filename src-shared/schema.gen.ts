@@ -2342,6 +2342,16 @@ const planRelationships = {
     },
   ],
 } as const;
+const planPriceRelationships = {
+  plan: [
+    {
+      sourceField: ["planId"],
+      destField: ["id"],
+      destSchema: "plan",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const providerRelationships = {
   member: [
     {
@@ -2672,6 +2682,7 @@ export const schema = {
     page: pageRelationships,
     pagePatch: pagePatchRelationships,
     plan: planRelationships,
+    planPrice: planPriceRelationships,
     provider: providerRelationships,
     search: searchRelationships,
     searchRecord: searchRecordRelationships,

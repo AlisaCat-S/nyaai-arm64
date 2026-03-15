@@ -130,6 +130,9 @@ export const relations = defineRelations(schema, r => ({
   plan: {
     prices: r.many.planPrice({ from: r.plan.id, to: r.planPrice.planId }),
   },
+  planPrice: {
+    plan: r.one.plan({ from: r.planPrice.planId, to: r.plan.id }),
+  },
   order: {
     workspace: r.one.workspace({ from: r.order.workspaceId, to: r.workspace.id }),
     plan: r.one.plan({ from: r.order.planId, to: r.plan.id }),

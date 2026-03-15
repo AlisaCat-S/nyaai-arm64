@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { DefaultSchema, Query, QueryResultType, Row } from '@rocicorp/zero'
 import { defineQueries, defineQuery } from '@rocicorp/zero'
 import { zql } from './schema.gen'
-import { assertAuthorized, withMember, withReadable } from './table-permission'
+import { assertAdmin, assertAuthorized, withMember, withReadable } from './table-permission'
 import type { EntityListOptions } from './utils/validators'
 import { entityListOptionsSchema, entityStartSchema, entityTypeSchema } from './utils/validators'
 import { PUBLIC_ROOT_ID } from './utils/config'
@@ -404,6 +404,13 @@ export const queries = defineQueries({
     },
   ),
   plans: defineQuery(z.undefined(), () => zql.plan.related('prices', q => q.where('enabled', true))),
+  planPrices: defineQuery(
+    z.undefined(),
+    ({ ctx }) => {
+      assertAdmin(ctx)
+      return zql.planPrice.related('plan')
+    },
+  ),
   publicModels: defineQuery(z.undefined(), () => zql.model.where('entityId', PUBLIC_ROOT_ID).orderBy('sortPriority', 'desc')),
   adminWorkspaces: defineQuery(
     z.object({
@@ -411,7 +418,8 @@ export const queries = defineQueries({
       planId: z.string().nullish(),
       limit: z.number().default(40),
     }),
-    ({ args: { ownerId, planId, limit } }) => {
+    ({ ctx, args: { ownerId, planId, limit } }) => {
+      assertAdmin(ctx)
       let q = zql.workspace.related('plan')
       if (ownerId) q = q.where('ownerId', ownerId)
       if (planId) q = q.where('planId', planId)

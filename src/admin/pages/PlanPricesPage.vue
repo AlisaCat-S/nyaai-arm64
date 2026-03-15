@@ -53,7 +53,7 @@ import { currencyPrefix } from 'app/src-shared/utils/functions'
 import PlanSelect from '../components/PlanSelect.vue'
 
 const columns: QTableColumn[] = [
-  { name: 'plan', label: t('Plan'), field: 'plan' },
+  { name: 'plan', label: t('Plan'), field: 'plan', format: plan => plan.name },
   { name: 'provider', label: t('Provider'), field: 'provider' },
   { name: 'interval', label: t('Interval'), field: 'interval' },
   { name: 'amount', label: t('Amount'), field: 'amount', format: (val, row) => currencyPrefix(row.provider) + val },
@@ -62,9 +62,8 @@ const columns: QTableColumn[] = [
 
 const planId = ref<string | null>(null)
 
-const { data: plans } = useQuery(queries.plans)
-const rows = computed(() => plans.value
-  .flatMap(plan => plan.prices.map(price => ({ ...price, plan: plan.name })))
+const { data: prices } = useQuery(queries.planPrices())
+const rows = computed(() => prices.value
   .filter(price => !planId.value || price.planId === planId.value),
 )
 
