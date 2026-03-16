@@ -208,7 +208,7 @@ const previewMode = computed(() => {
 const tab = ref((() => {
   if (previewMode.value) return 'preview'
   if (props.item.blobId) return 'file'
-  if (props.item.text) return 'text'
+  if (props.item.text != null) return 'text'
   return 'empty'
 })())
 const imageUrl = useBlobURL(computed(() => previewMode.value === 'image' ? props.item.id : null))

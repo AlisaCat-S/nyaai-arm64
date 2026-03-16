@@ -56,6 +56,16 @@
             @click="createEntity(rightDirStore.dirId!, 'item')"
           />
           <menu-item
+            :label="t('Text')"
+            icon="sym_o_code"
+            @click="createText"
+          />
+          <menu-item
+            :label="t('Assistant')"
+            icon="sym_o_robot_2"
+            @click="createEntity(rightDirStore.dirId!, 'assistant')"
+          />
+          <menu-item
             :label="t('MCP')"
             icon="sym_o_extension"
             @click="createEntity(rightDirStore.dirId!, 'mcpPlugin')"
@@ -74,12 +84,15 @@
 <script setup lang="ts">
 import { t } from 'src/utils/i18n'
 import { useRightDirStore } from 'src/stores/right-dir'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import type { QBtnProps } from 'quasar'
 import type { EntityType } from 'app/src-shared/utils/validators'
 import MenuItem from './MenuItem.vue'
 import { createEntity } from 'src/utils/create-entity'
+import { mutate } from 'src/utils/zero-session'
+import { mutators } from 'app/src-shared/mutators'
+import { genId } from 'app/src-shared/utils/id'
 
 const route = useRoute()
 const rightDirStore = useRightDirStore()
@@ -119,6 +132,11 @@ const mainBtnProps = computed<Partial<QBtnProps>>(() => {
       icon: 'sym_o_cloud_upload',
       class: { 'important:route-active': route.path === '/item' },
     }
+  } else if (type === 'assistant') {
+    return {
+      label: t('New Assistant'),
+      icon: 'sym_o_robot_2',
+    }
   } else if (type === 'provider') {
     return {
       label: t('New Provider'),
@@ -135,4 +153,15 @@ const mainBtnProps = computed<Partial<QBtnProps>>(() => {
     icon: 'sym_o_create_new_folder',
   }
 })
+
+const router = useRouter()
+async function createText() {
+  const id = genId()
+  await mutate(mutators.createItem({
+    id,
+    parentId: rightDirStore.dirId!,
+    text: '',
+  })).client
+  router.push(`/item/${id}`)
+}
 </script>

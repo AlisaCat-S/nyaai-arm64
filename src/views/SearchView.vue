@@ -33,6 +33,7 @@
         <model-select
           :model-value="conf.chatModelId"
           @update:model-value="switchModel($event)"
+          :workspace-id="workspaceStore.id"
           dense
         />
       </div>
@@ -97,6 +98,7 @@ import { getFavicon } from 'src/utils/functions'
 import { useRouter } from 'vue-router'
 import ModelSelect from 'src/components/ModelSelect.vue'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
+import { useWorkspaceStore } from 'src/stores/workspace'
 
 const props = defineProps<{
   search: SearchWithRecords
@@ -156,4 +158,6 @@ watch(() => record.value.id, id => {
     },
   })
 }, { immediate: true })
+
+const workspaceStore = useWorkspaceStore()
 </script>

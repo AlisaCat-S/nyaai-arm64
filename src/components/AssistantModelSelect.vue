@@ -137,7 +137,7 @@ const props = defineProps<{
 const assistantId = defineModel<string | null>('assistantId', { required: true })
 const modelId = defineModel<string | null>('modelId', { required: true })
 
-const { data: assistants } = useQuery(() => queries.assistants(props.workspaceId))
+const { data: assistants } = useQuery(() => queries.assistants({ workspaceId: props.workspaceId }))
 const assistant = computed(() => assistants.value.find(a => a.id === assistantId.value))
 
 const { data: workspaceModels } = useQuery(() => queries.models(props.workspaceId))

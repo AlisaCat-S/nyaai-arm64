@@ -210,7 +210,7 @@ provide('scopes', computed<SettingsScope[]>(() => ancestors.value.map(x => ({
 
 const workspaceStore = useWorkspaceStore()
 
-const { data: assistants } = useQuery(() => workspaceStore.id ? queries.assistants(workspaceStore.id) : null)
+const { data: assistants } = useQuery(() => workspaceStore.id ? queries.assistants({ workspaceId: workspaceStore.id }) : null)
 const assistantOptions = computed(() => assistants.value?.map(a => ({
   avatar: entityAvatar(a.entity),
   label: entityName(a.entity),

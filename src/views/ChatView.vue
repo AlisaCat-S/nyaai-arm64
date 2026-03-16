@@ -332,7 +332,7 @@ async function send() {
   await mutate(mutators.appendMessagePair({
     entityId: id,
     target,
-    aProps: { id: genId(), assistantId: assistant.value?.id, sentAt: Date.now() },
+    aProps: { id: genId(), assistantId: assistant.value?.id, modelName: modelName(model.value), sentAt: Date.now() },
     uProps: { id: genId() },
   })).client
   nextTick(() => {
@@ -432,6 +432,7 @@ async function getCompletionConfig(): Promise<CompletionConfig | undefined> {
       return {
         ...base,
         promptTemplate: conf.value.searchAssistantPrompt,
+        promptRole: 'user',
         vars: {
           query: record.q,
           results: record.results,

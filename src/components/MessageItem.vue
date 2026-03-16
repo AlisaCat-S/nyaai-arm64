@@ -266,7 +266,7 @@
             :entity
           />
         </div>
-        <toolcall-item
+        <tool-call-item
           v-for="toolCall of message.toolCalls"
           :key="toolCall.id"
           :tool-call
@@ -368,7 +368,7 @@ import { genId } from 'app/src-shared/utils/id'
 import MessageImage from './MessageImage.vue'
 import MessageEntity from './MessageEntity.vue'
 import { usePerfsStore } from 'src/stores/perfs'
-import ToolcallItem from './ToolCallItem.vue'
+import ToolCallItem from './ToolCallItem.vue'
 import { createSearch } from 'src/services/create-search'
 import { useRouter } from 'vue-router'
 import { entityRoute, wrapCode } from 'src/utils/functions'

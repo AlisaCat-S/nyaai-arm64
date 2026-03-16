@@ -48,7 +48,7 @@ async function logUsage({ workspaceId, userId, model, inputTokens, outputTokens 
     id: genId(),
     workspaceId,
     userId,
-    modelName: model.name,
+    modelName: model.label || model.name,
     cost,
     details: `inputTokens: ${inputTokens}, outputTokens: ${outputTokens}`,
   })

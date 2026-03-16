@@ -121,6 +121,7 @@ onUnmounted(() => {
 
 const $q = useQuasar()
 function deleteSelected() {
+  const _selected = Array.from(selected)
   $q.dialog({
     title: t('Delete Permanently'),
     message: t('Are you sure you want to delete selected items from trash permanently?'),
@@ -133,11 +134,12 @@ function deleteSelected() {
   }).onOk(() => {
     mutate(mutators.deleteEntities({
       workspaceId: props.workspaceId,
-      ids: Array.from(selected),
+      ids: _selected,
     }))
   })
 }
 function restoreSelected() {
+  const _selected = Array.from(selected)
   $q.dialog({
     component: SelectDirDialog,
     componentProps: {
@@ -146,7 +148,7 @@ function restoreSelected() {
   }).onOk((dirId: string) => {
     mutate(mutators.restoreEntities({
       workspaceId: props.workspaceId,
-      ids: Array.from(selected),
+      ids: _selected,
       to: dirId,
     }))
   })

@@ -368,6 +368,7 @@ function recycleSelected() {
   exitSelectMode()
 }
 function renameSelected() {
+  const _selected = Array.from(selected)
   $q.dialog({
     title: t('Rename'),
     prompt: {
@@ -377,7 +378,7 @@ function renameSelected() {
     cancel: true,
     ok: t('Rename'),
   }).onOk(name => {
-    selected.forEach(id => {
+    _selected.forEach(id => {
       mutate(mutators.updateEntity({
         id,
         name,

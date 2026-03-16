@@ -65,7 +65,7 @@ const crawlInputSchema = z.object({
 })
 
 async function crawl(url: string) {
-  return await ky.get(`${JinaReaderURL}/${encodeURIComponent(url)}`).text()
+  return await ky.get(`${JinaReaderURL}/${encodeURIComponent(url)}`, { timeout: 30000 }).text()
 }
 
 export const webPlugin: BuiltinPluginManifest = {

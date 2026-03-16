@@ -52,6 +52,13 @@ export async function createEntity(parentId: string, type: EntityType) {
       settings: initialSettings,
     })).client
     router.push(`/provider/${id}`)
+  } else if (type === 'assistant') {
+    const id = genId()
+    await mutate(mutators.createAssistant({
+      id,
+      parentId,
+    })).client
+    router.push(`/assistant/${id}`)
   } else if (type === 'mcpPlugin') {
     Dialog.create({
       component: CreateMcpDialog,

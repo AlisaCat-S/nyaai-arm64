@@ -39,6 +39,7 @@
         :model-value="contentMd"
         v-bind="mdPreviewProps"
         bg-sur-c-low
+        px-3
       />
     </template>
   </q-expansion-item>

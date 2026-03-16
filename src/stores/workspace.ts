@@ -32,6 +32,11 @@ export const useWorkspaceStore = defineStore('workspace', () => {
     z.preload(queries.recentTranslations(id.value))
     z.preload(queries.recentSearches(id.value))
     z.preload(queries.recentItems(id.value))
+    z.preload(queries.recentProviders(id.value))
+    z.preload(queries.assistants({
+      workspaceId: id.value,
+      limit: 10,
+    }))
   })
 
   async function updateData(updates: Partial<MemberData>) {

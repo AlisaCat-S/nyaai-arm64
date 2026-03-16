@@ -191,12 +191,18 @@ export const queries = defineQueries({
     },
   ),
   assistants: defineQuery(
-    z.string(),
-    ({ ctx, args: workspaceId }) => {
+    z.object({
+      workspaceId: z.string(),
+      limit: z.number().nullish(),
+    }),
+    ({ ctx, args: { workspaceId, limit } }) => {
+      let q = zql.assistant
+        .where('rootId', workspaceId)
+        .related('entity')
+        .orderBy('id', 'desc')
+      if (limit) q = q.limit(limit)
       return withReadable(
-        zql.assistant
-          .where('rootId', workspaceId)
-          .related('entity'),
+        q,
         ctx.userId,
       )
     },
@@ -222,6 +228,19 @@ export const queries = defineQueries({
           .related('models'),
         ctx.userId,
       ).one()
+    },
+  ),
+  recentProviders: defineQuery(
+    z.string(),
+    ({ ctx, args: workspaceId }) => {
+      return withReadable(
+        zql.provider
+          .where('rootId', workspaceId)
+          .related('entity')
+          .related('models')
+          .orderBy('id', 'desc'),
+        ctx.userId,
+      ).limit(10)
     },
   ),
   models: defineQuery(
