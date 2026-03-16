@@ -7,7 +7,6 @@ import { and, eq, isNull } from 'drizzle-orm'
 import { hashProofStream } from 'app/src-shared/utils/functions'
 import * as schema from './schema'
 import { randomId } from 'app/src-shared/utils/id'
-import { withReadable, withWritable } from './utils/functions'
 import { deleteObject, presignedGetObject, putObject } from './utils/s3'
 
 async function getDownloadUrl(id: string, userId: string) {
@@ -15,7 +14,15 @@ async function getDownloadUrl(id: string, userId: string) {
     where: {
       id,
       blobId: { isNotNull: true },
-      ...withReadable(userId),
+      OR: [
+        { member: { userId } },
+        {
+          entity: {
+            pubRoot: { isNotNull: true },
+            workspace: true,
+          },
+        },
+      ],
     },
     with: {
       blob: true,
@@ -50,7 +57,12 @@ const app = new Hono()
         where: {
           id,
           blobId: { isNull: true },
-          ...withWritable(session.user.id),
+          member: {
+            userId: session.user.id,
+            role: {
+              in: ['owner', 'admin', 'member'],
+            },
+          },
         },
         with: {
           workspace: {

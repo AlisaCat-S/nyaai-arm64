@@ -5,7 +5,7 @@ import { assert, expandMessageTree, timeMs, typeAvatar } from './utils/functions
 import type { Context } from './utils/types'
 import type { WorkspaceRole } from './utils/validators'
 import type { WorkspaceContentTable } from './table-permission'
-import { assertAuthorized, withRole, withWritable, workspaceContentTables } from './table-permission'
+import { assertAuthorized, withMember, withRole, withWritable, workspaceContentTables } from './table-permission'
 import { zeroToZod } from './utils/zero-to-zod'
 import { z } from 'zod'
 import { avatarSchema, entityTypeSchema, mcpTransportSchema, memberDataSchema, modelInputTypesSchema, promptRoleSchema, searchResultSchema, shortcutActionSchema, toolCallStatusSchema, workspaceRoleSchema } from './utils/validators'
@@ -1588,11 +1588,15 @@ const accessEntity = defineMutator(
   }),
   async ({ tx, ctx, args: { entityId, time } }) => {
     assertAuthorized(ctx.userId)
-    const { rootId } = await requireWritable.entity(tx, ctx, entityId)
+    const entity = await tx.run(withMember(
+      zql.entity.where('id', entityId).one(),
+      ctx.userId,
+    ))
+    assert(entity, 'Entity not found')
     await tx.mutate.entityAccess.upsert({
       userId: ctx.userId,
       entityId,
-      rootId,
+      rootId: entity.rootId,
       time: ensureTimeValid(time),
     })
   },

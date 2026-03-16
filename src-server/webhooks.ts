@@ -87,13 +87,15 @@ async function handleSubscriptionChange(subscription: Stripe.Subscription) {
   const months = differenceInMonths(end, new Date())
   const resetAt = subMonths(end, months)
 
+  const resetQuota = resetAt.getTime() !== ws.resetAt.getTime() ? { quotaUsed: 0 } : {}
+
   await db.update(workspace)
     .set({
       payment: { type: 'stripe', customerId, subscriptionId: subscription.id },
       planId: price.planId,
       resetAt,
       remainingMonths: months,
-      quotaUsed: 0,
+      ...resetQuota,
     })
     .where(eq(workspace.id, ws.id))
 }

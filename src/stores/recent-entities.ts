@@ -11,10 +11,11 @@ export const useRecentEntitiesStore = defineStore('recent-entities', () => {
   const entityStore = useEntityStore()
   const workspaceStore = useWorkspaceStore()
   const { data: accesses } = useQuery(() => workspaceStore.id ? queries.entityAccesses(workspaceStore.id) : null)
-  watch(() => entityStore.entity?.id, id => {
-    if (!id) return
+  watch(() => entityStore.entity, entity => {
+    if (!entity) return
+    if (entity.rootId !== workspaceStore.id) return
     mutate(mutators.accessEntity({
-      entityId: id,
+      entityId: entity.id,
       time: Date.now(),
     }))
   })
