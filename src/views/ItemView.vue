@@ -62,7 +62,7 @@
     >
       <div
         v-if="tab === 'preview'"
-        p-2
+        p-3
       >
         <img
           v-if="imageUrl"

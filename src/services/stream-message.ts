@@ -3,7 +3,7 @@ import { jsonSchema, stepCountIs, streamText, tool } from 'ai'
 import { finish, start, update } from 'src/composables/state-proxy'
 import { mutate } from 'src/utils/zero-session'
 import type { FullChat, FullModel } from 'app/src-shared/queries'
-import { arrayToMap } from 'src/utils/functions'
+import { arrayToMap, getCommonVars } from 'src/utils/functions'
 import { getChatChain, toModelMessages, toToolResultOutput } from 'src/utils/chat-tools'
 import { engine } from 'src/utils/template-engine'
 import { withTask } from 'src/utils/tasks'
@@ -99,7 +99,10 @@ export const streamChat = withTask(async (
       .map(id => messageMap[id]),
     inputTypes,
   )
-  const prompt = await engine.parseAndRender(config.promptTemplate, config.vars)
+  const prompt = await engine.parseAndRender(config.promptTemplate, {
+    ...getCommonVars(),
+    ...config.vars,
+  })
   prompt.trim() && messages.unshift({
     role: config.promptRole,
     content: prompt,

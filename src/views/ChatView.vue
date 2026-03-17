@@ -184,7 +184,7 @@ import type { Ref } from 'vue'
 import { computed, inject, nextTick, toRef, useTemplateRef, watch, ref } from 'vue'
 import { mutate, z } from 'src/utils/zero-session'
 import { genId } from 'app/src-shared/utils/id'
-import { pairs } from 'src/utils/functions'
+import { getCommonVars, pairs } from 'src/utils/functions'
 import { t } from 'src/utils/i18n'
 import { useChatRes } from 'src/composables/chat-res'
 import { useQuasar } from 'quasar'
@@ -219,6 +219,7 @@ import ProviderOptionsBtn from 'src/components/ProviderOptionsBtn.vue'
 import { DefaultPromptTemplate } from 'src/utils/templates'
 import { useQuote } from 'src/composables/quote'
 import { useListenKey } from 'src/composables/listen-key'
+import { engine } from 'src/utils/template-engine'
 
 const props = defineProps<{
   chat: FullChat
@@ -414,7 +415,7 @@ async function getCompletionConfig(): Promise<CompletionConfig | undefined> {
         streamSettings,
         vars: {
           _rolePrompt: prompt,
-          _pluginsPrompt: pluginsPrompt.value,
+          _pluginsPrompt: engine.parseAndRenderSync(pluginsPrompt.value, getCommonVars()),
         },
         tools: Object.fromEntries(Object.entries(plugins.value).map(([id, { tools }]) => [id, tools])),
         sdkTools: providerTools.value,

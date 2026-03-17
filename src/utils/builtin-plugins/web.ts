@@ -50,6 +50,10 @@ According to recent studies, global temperatures have risen by 1.1°C since pre-
 - **Language Matching:** Always generate your final response in the SAME language as the user's input message.
 - **Accuracy:** Do not hallucinate information. If the tools fail to find the answer after retries, honestly inform the user.
 </general_constraints>
+
+<meta_info>
+Current time: {{ _currentTime }}
+</meta_info>
 `
 const JinaReaderURL = 'https://r.jina.ai'
 

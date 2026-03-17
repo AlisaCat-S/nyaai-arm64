@@ -4,6 +4,7 @@ import type { EntityType, WorkspaceRole } from 'app/src-shared/utils/validators'
 import { t } from './i18n'
 import { scaleImage } from './image-process'
 import type { ShortcutKey } from './types'
+import { Dark, Platform } from 'quasar'
 
 export const pageFhStyle = (offset: number, height: number) => ({
   height: `${height - offset}px`,
@@ -228,4 +229,13 @@ export function mergeObjects(objects: object[], depth = 1) {
     }
   }
   return merged
+}
+
+export function getCommonVars() {
+  return {
+    _currentTime: new Date().toLocaleString(),
+    _userLanguage: navigator.language,
+    _isDarkMode: Dark.isActive,
+    _platform: Platform,
+  }
 }
