@@ -24,8 +24,19 @@ services:
       -c hot_standby_feedback=on
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ../initdb.d:/docker-entrypoint-initdb.d
+    configs:
+      - source: init_db
+        target: /docker-entrypoint-initdb.d/init.sql
   
 volumes:
   pgdata:
     driver: local
+
+configs:
+  init_db:
+    content: |
+      CREATE DATABASE app;
+      CREATE DATABASE zero;
+
+      \c app;
+      CREATE EXTENSION IF NOT EXISTS zhparser;

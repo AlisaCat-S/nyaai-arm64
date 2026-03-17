@@ -9,7 +9,9 @@ services:
       interval: 5s
     volumes:
       - pgdata:/var/lib/postgresql
-      - ./initdb.d:/docker-entrypoint-initdb.d
+    configs:
+      - source: init_db
+        target: /docker-entrypoint-initdb.d/init.sql
 
   pgbouncer:
     image: edoburu/pgbouncer:latest
@@ -85,3 +87,12 @@ services:
 volumes:
   pgdata:
   zero-cache-data:
+
+configs:
+  init_db:
+    content: |
+      CREATE DATABASE app;
+      CREATE DATABASE zero;
+
+      \c app;
+      CREATE EXTENSION IF NOT EXISTS zhparser;

@@ -53,7 +53,7 @@ import { currencyPrefix } from 'app/src-shared/utils/functions'
 import PlanSelect from '../components/PlanSelect.vue'
 
 const columns: QTableColumn[] = [
-  { name: 'plan', label: t('Plan'), field: 'plan', format: plan => plan.name },
+  { name: 'plan', label: t('Plan'), field: 'plan', format: plan => plan.name, align: 'left' },
   { name: 'provider', label: t('Provider'), field: 'provider' },
   { name: 'interval', label: t('Interval'), field: 'interval' },
   { name: 'amount', label: t('Amount'), field: 'amount', format: (val, row) => currencyPrefix(row.provider) + val },

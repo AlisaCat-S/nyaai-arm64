@@ -29,7 +29,7 @@ import type { OrderProvider } from 'app/src-shared/utils/types'
 const columns: QTableColumn[] = [
   { name: 'orderId', label: t('Order ID'), field: 'id', align: 'left' },
   { name: 'provider', label: t('Payment Method'), field: 'provider', format: formatProvider },
-  { name: 'amount', label: t('Amount'), field: 'amount', format: (val, { provider }) => `${currencyPrefix(provider)}${val}` },
+  { name: 'amount', label: t('Amount'), field: 'amount', format: (val, { provider }) => `${currencyPrefix(provider.type)}${val}` },
   { name: 'plan', label: t('Plan'), field: 'plan', format: val => val?.name },
   { name: 'planInterval', label: t('Plan Interval'), field: 'planInterval', format: formatInterval },
   { name: 'completedAt', label: t('Completed At'), field: 'completedAt', format: val => val ? new Date(val).toLocaleString() : t('Unpaid') },

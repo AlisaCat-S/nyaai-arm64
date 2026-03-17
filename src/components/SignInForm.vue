@@ -92,13 +92,12 @@
 import { useQuasar } from 'quasar'
 import { t } from 'src/utils/i18n'
 import { authClient } from 'src/utils/auth-client'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import AAvatar from 'src/components/AAvatar.vue'
 import ForgotPasswordDialog from './ForgotPasswordDialog.vue'
 import VerifyEmailDialog from './VerifyEmailDialog.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { user } from 'src/utils/zero-session'
-import { until } from '@vueuse/core'
 import { useGlobalSettingsStore } from 'src/stores/global-settings'
 import PolicyLinks from './PolicyLinks.vue'
 
@@ -141,10 +140,7 @@ async function signIn() {
         color: 'negative',
       })
     }
-    return
   }
-  await until(() => user.id).toBeTruthy()
-  router.replace(getRedirect())
 }
 
 function signInWith(provider: string) {
@@ -159,4 +155,8 @@ function forgotPassword() {
     component: ForgotPasswordDialog,
   })
 }
+
+watch(() => user.id, id => {
+  if (id) router.replace(getRedirect())
+}, { immediate: true })
 </script>

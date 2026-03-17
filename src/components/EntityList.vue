@@ -62,6 +62,7 @@
       @scroll="onScroll"
       @drop.self="onDrop($event, dirId)"
       @dragover.self.prevent
+      flex="~ col"
     >
       <q-list ref="listRef">
         <entity-item
@@ -107,10 +108,11 @@
             />
           </template>
         </entity-item>
-      </q-list>
-      <q-menu context-menu>
-        <q-list ref="menuListRef">
-          <template v-if="selected.size">
+        <q-menu context-menu>
+          <q-list
+            ref="menuListRef"
+            v-if="selected.size"
+          >
             <menu-item
               :label="t('Rename')"
               icon="sym_o_edit"
@@ -159,16 +161,21 @@
               @click="recycleSelected"
               hover:text-err
             />
-          </template>
-          <menu-item
-            v-else
-            :label="t('Properties')"
-            icon="sym_o_settings"
-            :active="false"
-            :to="entityRoute('folder', dirId)"
-          />
-        </q-list>
-      </q-menu>
+          </q-list>
+        </q-menu>
+      </q-list>
+      <div grow>
+        <q-menu context-menu>
+          <q-list ref="menuListRef">
+            <menu-item
+              :label="t('Properties')"
+              icon="sym_o_settings"
+              :active="false"
+              :to="entityRoute('folder', dirId)"
+            />
+          </q-list>
+        </q-menu>
+      </div>
     </div>
   </div>
 </template>

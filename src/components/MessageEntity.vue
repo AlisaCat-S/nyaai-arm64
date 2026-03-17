@@ -8,6 +8,7 @@
     @click="$router.push({ query: { rightEntity: JSON.stringify({ type: entity.type, id: entity.id }) } })"
     clickable
     max-w="360px"
+    m-0
   />
 </template>
 

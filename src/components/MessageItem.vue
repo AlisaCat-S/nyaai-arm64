@@ -159,7 +159,8 @@
       <div
         class="group"
         pos-relative
-        :class="{ 'message-sticky-offset': childNum > 1 || !inputing }"
+        :class="{ 'message-sticky-offset': childNum > 1 || !inputing, 'bg-sur-c-low': background }"
+        rd-lg
       >
         <q-expansion-item
           v-if="message.reasoning"
@@ -253,6 +254,7 @@
           v-if="message.entities.length"
           flex="~ wrap"
           gap-2
+          p-2
         >
           <message-image
             v-for="entity of message.entities.filter(i => i.item?.mimeType?.startsWith('image/'))"

@@ -40,11 +40,10 @@
 import { useQuasar } from 'quasar'
 import { t } from 'src/utils/i18n'
 import { authClient } from 'src/utils/auth-client'
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import SetPasswordInputs from './SetPasswordInputs.vue'
 import VerifyEmailDialog from './VerifyEmailDialog.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { until } from '@vueuse/core'
 import { user } from 'src/utils/zero-session'
 import PolicyLinks from './PolicyLinks.vue'
 
@@ -86,9 +85,10 @@ async function signUp() {
         password: input.password,
       },
     })
-    return
   }
-  await until(() => user.id).toBeTruthy()
-  router.replace(getRedirect())
 }
+
+watch(() => user.id, id => {
+  if (id) router.replace(getRedirect())
+}, { immediate: true })
 </script>
