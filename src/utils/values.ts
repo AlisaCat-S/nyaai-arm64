@@ -50,16 +50,16 @@ const BaseURLs = {
 }
 
 const commonSchema = {
-  apiKey: {
-    type: 'string',
-    title: 'API Key',
-    format: 'password',
-    width: '225px',
-  },
   baseURL: {
     type: 'string',
     format: 'url',
     title: t('API Address'),
+    width: '225px',
+  },
+  apiKey: {
+    type: 'string',
+    title: 'API Key',
+    format: 'password',
     width: '225px',
   },
 } satisfies ObjectSchema

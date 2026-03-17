@@ -250,7 +250,7 @@ function translate() {
     if (!entity.value!.name) {
       mutate(mutators.updateEntity({
         id: entity.value!.id,
-        name: textBeginning(input!, 16),
+        name: textBeginning(input!, 20),
       }))
     }
   }).catch(err => {

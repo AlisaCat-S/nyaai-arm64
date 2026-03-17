@@ -48,7 +48,7 @@ import { textBeginning } from 'src/utils/functions'
 const columns: QTableColumn[] = [
   { name: 'name', label: t('Name'), field: 'name', sortable: true, align: 'left' },
   { name: 'label', label: t('Label'), field: 'label', sortable: true },
-  { name: 'caption', label: t('Caption'), field: 'caption', format: val => val && textBeginning(val, 20) },
+  { name: 'caption', label: t('Caption'), field: 'caption', format: val => val && textBeginning(val, 30) },
   { name: 'inputPrice', label: t('Input Price'), field: 'inputPrice', sortable: true },
   { name: 'outputPrice', label: t('Output Price'), field: 'outputPrice', sortable: true },
   { name: 'createdAt', label: t('Created At'), field: 'id', format: id => idDateString(id), sortable: true },
