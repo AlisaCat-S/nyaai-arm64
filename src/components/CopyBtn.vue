@@ -26,7 +26,7 @@ function copy() {
     }, 2000)
   }).catch(() => {
     Notify.create({
-      message: t('copyBtn.copyFailed'),
+      message: t('Copy failed'),
       color: 'negative',
     })
   })

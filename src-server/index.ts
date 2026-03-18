@@ -11,12 +11,13 @@ import searxng from './searxng'
 import webhooks from './webhooks'
 import { initJobs } from './jobs'
 import { sizeBytes } from 'app/src-shared/utils/functions'
+import { log } from './utils/functions'
 
 seed()
 initJobs()
 
 export const app = new Hono().basePath('/api')
-  .use(logger())
+  .use(logger(log))
   .route('/auth', auth)
   .route('/zero', zero)
   .route('/s3', s3)

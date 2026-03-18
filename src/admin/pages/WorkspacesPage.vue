@@ -69,7 +69,7 @@ const query = reactive({
   planId: null as string | null,
 })
 
-const { data: rows } = useQuery(() => queries.adminWorkspaces(query))
+const { data: rows } = useQuery(() => queries.adminWorkspaces({ ...query }))
 
 const $q = useQuasar()
 

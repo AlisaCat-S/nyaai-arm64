@@ -52,6 +52,7 @@
             <q-btn
               v-else-if="workspace.payment?.type === 'wxpay'"
               :label="t('Renew')"
+              to="/workspace/plans"
               unelevated
               bg-pri-c
               text-on-pri-c

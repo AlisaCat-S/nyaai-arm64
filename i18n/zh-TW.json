@@ -18,7 +18,6 @@
   "Failed to change password: {0}": "更改密碼失敗：{0}",
   "Password updated successfully": "密碼更新成功",
   "Copy": "複製",
-  "copyBtn.copyFailed": "copyBtn.copyFailed",
   "Create Invitation Link": "創建邀請連結",
   "Role": "角色",
   "What role will the new member be?": "新成員的角色？",
@@ -673,5 +672,6 @@
   "Browse the out-of-the-box models we offer and their pricing": "瀏覽我們提供的現成模型及其定價",
   "New item": "新項目",
   "TOS Link": "服務條款連結",
-  "Privacy Policy Link": "隱私權政策連結"
+  "Privacy Policy Link": "隱私權政策連結",
+  "Copy failed": "複製失敗"
 }

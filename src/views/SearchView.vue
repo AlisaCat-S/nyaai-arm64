@@ -3,11 +3,8 @@
     flex="~ col"
     view-styles
   >
-    <div p-2>
-      <common-toolbar
-        bg-sur
-        px-0
-      >
+    <div>
+      <common-toolbar bg-sur>
         <form
           @submit.prevent="searchSubmit"
           grow
@@ -20,7 +17,10 @@
           />
         </form>
       </common-toolbar>
-      <div flex>
+      <div
+        flex
+        px-2
+      >
         <q-pagination
           v-if="search.records.length > 1"
           :model-value="search.currentIndex + 1"
