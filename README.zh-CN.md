@@ -88,4 +88,4 @@ bun dev:admin
 ## 社区链接
 
 - [Product Hunt](https://www.producthunt.com/products/nya-ai-all-in-one-ai-workspace)
-- [Linux Do](https://linux.do)
+- [Linux Do](https://linux.do/t/topic/1787694)
