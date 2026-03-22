@@ -187,6 +187,8 @@ export default defineConfig((ctx) => {
         cfg.navigateFallbackDenylist = [
           /^\/api\//,
         ]
+        cfg.skipWaiting = false
+        cfg.clientsClaim = true
       },
       // extendInjectManifestOptions (cfg) {}
     },

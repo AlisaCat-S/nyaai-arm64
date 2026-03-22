@@ -17,6 +17,8 @@ import { usePerfsStore } from './stores/perfs'
 import NavigationDialog from './components/NavigationDialog.vue'
 import { useListenKey } from './composables/listen-key'
 import { useWorkspaceStore } from './stores/workspace'
+import { useRouter } from 'vue-router'
+import { waitingWorker } from 'app/src-pwa/register-service-worker'
 
 const perfsStore = usePerfsStore()
 useSetTheme(computed(() => perfsStore.perfs.themeHue))
@@ -27,4 +29,14 @@ useListenKey(computed(() => perfsStore.perfs.navigationPanelShortcut), () => {
   panelOpen.value = !panelOpen.value
 })
 
+const router = useRouter()
+router.beforeEach((to, from) => {
+  if (waitingWorker && to.path !== from.path) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      location.href = to.fullPath
+    }, { once: true })
+    waitingWorker.postMessage({ type: 'SKIP_WAITING' })
+    return false
+  }
+})
 </script>

@@ -4,6 +4,8 @@ import { register } from 'register-service-worker'
 // events passes a ServiceWorkerRegistration instance in their arguments.
 // ServiceWorkerRegistration: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration
 
+export let waitingWorker: ServiceWorker | null = null
+
 register(process.env.SERVICE_WORKER_FILE, {
   // The registrationOptions object will be passed as the second argument
   // to ServiceWorkerContainer.register()
@@ -27,8 +29,9 @@ register(process.env.SERVICE_WORKER_FILE, {
     // console.log('New content is downloading.')
   },
 
-  updated (/* registration */) {
+  updated (registration) {
     // console.log('New content is available; please refresh.')
+    waitingWorker = registration.waiting
   },
 
   offline () {
