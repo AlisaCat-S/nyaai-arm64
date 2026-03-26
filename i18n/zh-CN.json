@@ -507,7 +507,6 @@
   "Click <strong>\"New Channel\"</strong> in the right sidebar to create a channel.": "点击右侧边栏中的<strong>“新频道”</strong>创建频道。",
   "Welcome to Nya AI": "欢迎使用 Nya AI",
   "This is your workspace. Here, all content is organized in a file system-like manner, and you can browse all directories in the right sidebar.": "这是你的工作区。 在这里，所有内容都以类似文件系统的方式组织，您可以在右侧边栏中浏览所有目录。",
-  "Get started by clicking one of the shortcuts in the left sidebar.": "点击左侧边栏中的一个快捷方式以开始。",
   "More": "更多",
   "GitHub": "GitHub",
   "View source code & report issues & star us": "查看源代码 & 报告问题 & Star",
@@ -669,11 +668,13 @@
   "TOS Link": "服务条款链接",
   "Privacy Policy Link": "隐私政策链接",
   "Copy failed": "复制失败",
-  "Learn more details": "了解更多细节",
-  "Ask AI on Zread to learn more details": "在 Zread 上问 AI 以了解更多细节",
   "Settings have three scopes: user, workspace, and local, which allows you to apply different settings for different workspaces and devices.": "设置有三层作用域：用户、工作区和本地，这允许你为不同的工作区和不同的设备应用不同的设置",
   "This configuration applies to this directory scope; different directories can have different configurations, and the configuration of an inner directory can override that of an outer directory.": "此配置作用于此目录范围，不同的目录可以有不同的配置，内层目录的配置可以覆盖外层目录的配置",
   "Directory Configuration": "目录配置",
   "Enter link": "输入链接",
-  "Link": "链接"
+  "Link": "链接",
+  "Getting started": "开始使用",
+  "Chat with AI": "和 AI 对话",
+  "Search the web with AI": "搜索互联网",
+  "Take notes & collaborate": "笔记 & 协作"
 }

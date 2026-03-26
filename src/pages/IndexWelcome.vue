@@ -14,47 +14,55 @@
         <div>
           {{ t('This is your workspace. Here, all content is organized in a file system-like manner, and you can browse all directories in the right sidebar.') }}
         </div>
-        <div mt-2>
-          {{ t('Get started by clicking one of the shortcuts in the left sidebar.') }}
-        </div>
+      </q-card-section>
+      <q-card-section p-0>
+        <q-list>
+          <q-item-label header>
+            {{ t('Getting started') }}
+          </q-item-label>
+          <dense-item
+            :avatar="typeAvatar('chat')"
+            :label="t('Chat')"
+            :caption="t('Chat with AI')"
+            clickable
+            @click="goto('chat')"
+            rd
+            h="48px"
+          />
+          <dense-item
+            :avatar="typeAvatar('search')"
+            :label="t('Search')"
+            :caption="t('Search the web with AI')"
+            clickable
+            @click="goto('search')"
+            rd
+            h="48px"
+          />
+          <dense-item
+            :avatar="typeAvatar('page')"
+            :label="t('Pages')"
+            :caption="t('Take notes & collaborate')"
+            clickable
+            @click="goto('page')"
+            rd
+            h="48px"
+          />
+        </q-list>
       </q-card-section>
       <q-card-section p-0>
         <q-list>
           <q-item-label header>
             {{ t('More') }}
           </q-item-label>
-          <q-item
+          <dense-item
+            :avatar="{ type: 'svg', name: 'github' }"
+            :label="t('GitHub')"
+            :caption="t('View source code & report issues & star us')"
             href="https://github.com/NitroRCr/nyaai"
             target="_blank"
             rd
-          >
-            <q-item-section
-              avatar
-            >
-              <a-avatar :avatar="{ type: 'svg', name: 'github' }" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ t('GitHub') }}</q-item-label>
-              <q-item-label caption>
-                {{ t('View source code & report issues & star us') }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-item
-            href="https://zread.ai/NitroRCr/nyaai"
-            target="_blank"
-            rd
-          >
-            <q-item-section avatar>
-              <a-avatar :avatar="{ type: 'icon', icon: 'sym_o_book_2' }" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ t('Learn more details') }}</q-item-label>
-              <q-item-label caption>
-                {{ t('Ask AI on Zread to learn more details') }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+            h="48px"
+          />
         </q-list>
       </q-card-section>
     </q-card>
@@ -62,7 +70,19 @@
 </template>
 
 <script setup lang="ts">
-import AAvatar from 'src/components/AAvatar.vue'
 import WelcomeWrapper from './WelcomeWrapper.vue'
 import { t } from 'src/utils/i18n'
+import type { EntityType } from 'app/src-shared/utils/validators'
+import { useActiveEntitiesStore } from 'src/stores/active-entities'
+import { useRunShortcut } from 'src/composables/run-shortcut'
+import DenseItem from 'src/components/DenseItem.vue'
+import { typeAvatar } from 'app/src-shared/utils/functions'
+
+const activeEntitiesStore = useActiveEntitiesStore()
+const runShortcut = useRunShortcut()
+
+function goto(type: EntityType) {
+  const shortcut = activeEntitiesStore.shortcuts.find(s => s.type === type)
+  shortcut && runShortcut(shortcut)
+}
 </script>
