@@ -120,6 +120,8 @@ Output in JSON format, containing the following fields:
 - from: the language of the input text
 - to: the language of the output text
 
+The input text may not be plain text; please preserve the original formatting.
+
 {%- if from %}
 Input language: {{ from }}
 {%- endif %}

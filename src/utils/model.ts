@@ -11,6 +11,7 @@ export function toSdkModel({ provider, name }: FullModel) {
     return createOpenAICompatible({
       name: 'builtin',
       includeUsage: true,
+      supportsStructuredOutputs: true,
       headers: {
         'Workspace-Id': workspaceStore.id!,
       },

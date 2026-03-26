@@ -76,6 +76,7 @@ export const providerTypes = {
       language: (settings, model) => createOpenAICompatible({
         name: 'openaiCompatible',
         includeUsage: true,
+        supportsStructuredOutputs: true,
         ...settings,
         baseURL: settings.baseURL!,
       }).languageModel(model),
