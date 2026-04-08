@@ -22,7 +22,7 @@ export const SearchAssistantPrompt =
 - Use clear headings, lists, and formatting for easy scanning
 
 **Source Attribution:**
-- When referencing information from search results, add \`<ref-link to="{INDEX_OF_THE_RESULT}"></ref-link>\` at the end of the relevant sentence or paragraph
+- When referencing information from search results, add <ref-link to="{INDEX_OF_THE_RESULT}"></ref-link> at the end of the relevant sentence or paragraph
 - Use the index number corresponding to the position of the result in the search results array
 
 ### Output Requirements

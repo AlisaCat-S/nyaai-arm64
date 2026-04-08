@@ -1,3 +1,9 @@
+{
+  servers {
+    trusted_proxies static 172.16.0.0/12
+  }
+}
+
 :8080 {
 	root * /srv/front
 
@@ -15,16 +21,6 @@
 
 	handle_path /zero-cache* {
 		reverse_proxy {$ZERO_CACHE_URL}
-	}
-
-	@static file {
-		root /srv/front
-	}
-	handle @static {
-		try_files {path} /index.html
-		file_server {
-			precompressed br gzip
-		}
 	}
 
 	handle {
@@ -49,16 +45,6 @@
 
 	handle_path /zero-cache* {
 		reverse_proxy {$ZERO_CACHE_URL}
-	}
-
-	@static file {
-		root /srv/admin
-	}
-	handle @static {
-		try_files {path} /index.html
-		file_server {
-			precompressed br gzip
-		}
 	}
 
 	handle {

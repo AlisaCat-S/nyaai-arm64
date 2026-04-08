@@ -591,7 +591,7 @@ if (perfsStore.perfs.messageSelectionMenu) {
 const router = useRouter()
 async function search(text: string) {
   const id = await createSearch(text, props.message.entityId)
-  router.push(`/search/${id}`)
+  router.push(entityRoute('search', id, 'right'))
 }
 async function translate(text: string) {
   const id = genId()

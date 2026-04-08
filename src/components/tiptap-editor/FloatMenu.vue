@@ -176,7 +176,7 @@ function getMarkdown() {
   editor.state.selection.content().content.forEach(node => {
     nodes.push(node.toJSON())
   })
-  const markdown = editor.markdown!.renderNodes(nodes)
+  const markdown = editor.markdown!.renderNodes(nodes, undefined, '\n')
   return markdown
 }
 function getText() {

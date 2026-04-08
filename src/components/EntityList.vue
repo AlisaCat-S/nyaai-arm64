@@ -468,5 +468,6 @@ async function summarizeChatTitle(id: string) {
       color: 'negative',
     })
   })
+  exitSelectMode()
 }
 </script>
