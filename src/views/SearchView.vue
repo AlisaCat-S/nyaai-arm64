@@ -87,7 +87,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch, watchEffect } from 'vue'
+import type { Ref } from 'vue'
+import { computed, inject, nextTick, ref, watch, watchEffect } from 'vue'
 import Mark from 'mark.js'
 import { createSearchRecord } from 'src/services/create-search'
 import { type SearchWithRecords } from 'app/src-shared/queries'
@@ -99,10 +100,13 @@ import { useRouter } from 'vue-router'
 import ModelSelect from 'src/components/ModelSelect.vue'
 import CommonToolbar from 'src/components/CommonToolbar.vue'
 import { useWorkspaceStore } from 'src/stores/workspace'
+import type { LayoutPosition } from 'src/utils/types'
 
 const props = defineProps<{
   search: SearchWithRecords
 }>()
+
+const position = inject<Ref<LayoutPosition>>('position')!
 
 const record = computed(() => props.search.records[props.search.currentIndex])
 
@@ -152,6 +156,7 @@ async function switchRecord(index: number) {
 
 const router = useRouter()
 watch(() => record.value.id, id => {
+  if (position.value === 'right') return
   router.replace({
     query: {
       rightEntity: JSON.stringify({ type: 'chat', id }),
