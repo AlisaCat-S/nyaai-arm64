@@ -54,12 +54,6 @@ export async function toModelMessages(messages: FullMessage[], inputTypes: Model
               filename: entityName(entity),
             })
           }
-        } else {
-          const text = await serializeEntity(entity)
-          text && content.push({
-            type: 'text',
-            text,
-          })
         }
       }
       for (const t of m.toolCalls) {
@@ -112,6 +106,12 @@ export async function toModelMessages(messages: FullMessage[], inputTypes: Model
               text: `<content name="${entityName(entity)}">\n${item.text}\n</content>`,
             })
           }
+        } else {
+          const text = await serializeEntity(entity)
+          text && content.push({
+            type: 'text',
+            text,
+          })
         }
       }
       res.push({ role: 'user', content })
@@ -121,7 +121,7 @@ export async function toModelMessages(messages: FullMessage[], inputTypes: Model
 }
 
 const entitySerializeTemplate =
-`<{{ entity.type }} name="entity.name">
+`<{{ entity.type }} name="{{ entity.name }}">
 {{ content }}
 </{{ entity.type }}`
 
