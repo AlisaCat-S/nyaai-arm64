@@ -40,7 +40,8 @@ export const auth = betterAuth({
     provider: 'pg',
   }),
   emailAndPassword: {
-    enabled: true,
+    // enabled: true,
+    enabled: process.env.ENABLE_EMAIL_PASSWORD !== 'false',
     password: {
       hash: password => Bun.password.hash(password, {
         algorithm: 'argon2id',
