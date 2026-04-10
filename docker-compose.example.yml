@@ -44,6 +44,7 @@ services:
       S3_REGION: update-this
       S3_BUCKET: update-this
       SEARXNG_URL: update-this
+      ENABLE_EMAIL_PASSWORD: true
 
     depends_on:
       db:
