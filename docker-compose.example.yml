@@ -45,6 +45,8 @@ services:
       S3_BUCKET: update-this
       SEARXNG_URL: update-this
       ENABLE_EMAIL_PASSWORD: true
+      OPENAI_BASE_URL: 'https://xxxx.xxx/v1'
+      OPENAI_API_KEY: ''
 
     depends_on:
       db:
