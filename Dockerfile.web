@@ -1,4 +1,4 @@
-FROM imbios/bun-node:22-slim AS builder
+FROM --platform=$BUILDPLATFORM imbios/bun-node:22-slim AS builder
 
 WORKDIR /app
 
