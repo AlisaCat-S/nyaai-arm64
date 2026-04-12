@@ -7,7 +7,7 @@ const aws = new AwsClient({
 })
 
 function objectUrl(key: string) {
-  return `https://${S3_BUCKET}.${S3_ENDPOINT}/${key}`
+  return `${S3_ENDPOINT}/${S3_BUCKET}/${key}`
 }
 
 export async function presignedGetObject(key: string, { expires, contentDisposition }: {
@@ -34,6 +34,7 @@ export async function putObject(key: string, body: BodyInit, { size, metadata }:
     body,
     headers: {
       'content-length': size.toString(),
+      'X-Amz-Content-Sha256': 'UNSIGNED-PAYLOAD',
       ...metadata,
     },
   })
